@@ -35,7 +35,7 @@ jobs:
     inputs:
         targetType: 'inline'
         script: |
-          $path = "$($Env:BUILD_SOURCESDIRECTORY)\inc\os.h"
+          $path = "$($Env:BUILD_SOURCESDIRECTORY)\inc\version.h"
           # should possibly be setting this through the make file!
           $versionStr = '#define OS_BUILD_VERSION "' + $Env:Build_BuildNumber + '"'
           (Get-Content $path).Replace('#define OS_BUILD_VERSION "0"',$versionStr) | Set-Content $path
