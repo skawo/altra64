@@ -545,6 +545,7 @@ u8 diskInitSPI() {
     u32 u;
 
     volatile u8 resp = 0;
+    u8 cmd;
     u32 wait_len = WAIT;
 
     card_type = 0;
