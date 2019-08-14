@@ -18,7 +18,7 @@ jobs:
   - task: ExtractFiles@1
     inputs:
       archiveFilePatterns: 'gcc-toolchain-mips64-win64.zip' 
-      destinationFolder: gcc-toolchain-mips64
+      destinationFolder: toolchain/gcc-toolchain-mips64
       cleanDestinationFolder: false 
     displayName: 'Extract gcc-toolchain-mips64-win64'
     continueOnError: false
@@ -26,7 +26,7 @@ jobs:
   - task: ExtractFiles@1
     inputs:
       archiveFilePatterns: 'libdragon-win64.zip' 
-      destinationFolder: libdragon
+      destinationFolder: toolchain/libdragon
       cleanDestinationFolder: false 
     displayName: 'Extract libdragon-win64'
     continueOnError: false
