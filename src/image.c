@@ -65,7 +65,7 @@ sprite_t *loadImageDFS(char *fname) {
 
 
 sprite_t *loadImage32(u8 *png, int size) {
-    int x, y, n, fd;
+    int x, y, n;
     u8 *tbuf;
     u32 *ibuf;
     sprite_t *sbuf;
