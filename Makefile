@@ -18,7 +18,7 @@ HEADERTITLE = "EverDrive OS"
 HEADER = $(ROOTDIR)/toolchain/libdragon/lib/header
 PROG_NAME = OS64
 
-INCLUDE_DIRS = -I$(ROOTDIR)/inc -I$(ROOTDIR)/toolchain/gcc-toolchain-mips64/include -I$(ROOTDIR)/toolchain/gcc-toolchain-mips64/mips64-elf/include -I$(ROOTDIR)/toolchain/libdragon/include -I$(LIBDIR)/gdb/inc
+INCLUDE_DIRS = -I$(ROOTDIR)/inc -I$(ROOTDIR)/include -I$(ROOTDIR)/toolchain/gcc-toolchain-mips64/include -I$(ROOTDIR)/toolchain/gcc-toolchain-mips64/mips64-elf/include -I$(ROOTDIR)/toolchain/libdragon/include
 
 COMMON_FLAGS = -std=gnu17 -march=vr4300 -mtune=vr4300 -Wall -Wno-pointer-sign -ffunction-sections -fdata-sections -lpthread -lrt -D_REENTRANT -DUSE_TRUETYPE $(INCLUDE_DIRS) $(SET_DEBUG)
 FLAGS_VT = -O0 $(COMMON_FLAGS)
