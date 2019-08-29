@@ -1,3 +1,5 @@
+New-Item -ItemType Directory -Force -Path "$PSScriptRoot\temp\"
+
 $url = "https://n64tools.blob.core.windows.net/binaries/N64-tools/libs/n64/latest/libmikmod.zip"
 $output = "$PSScriptRoot\temp\libmikmod.zip"
 
