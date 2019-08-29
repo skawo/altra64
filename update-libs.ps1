@@ -15,21 +15,21 @@ $url = "https://n64tools.blob.core.windows.net/binaries/N64-tools/libs/n64/lates
 $output = "$PSScriptRoot\temp\libmikmod.zip"
 
 Invoke-WebRequest -Uri $url -OutFile $output
-Expand-ZIPFile –File $output –Destination “$PSScriptRoot\”
+Expand-ZIPFile –File $output –Destination $PSScriptRoot
 
 
 $url = "https://n64tools.blob.core.windows.net/binaries/N64-tools/libs/n64/latest/libmad.zip"
 $output = "$PSScriptRoot\temp\libmad.zip"
 
 Invoke-WebRequest -Uri $url -OutFile $output
-Expand-ZIPFile –File $output –Destination “$PSScriptRoot\”
+Expand-ZIPFile –File $output –Destination $PSScriptRoot
 
 
 $url = "https://n64tools.blob.core.windows.net/binaries/N64-tools/libs/n64/latest/libyaml.zip"
 $output = "$PSScriptRoot\temp\libyaml.zip"
 
 Invoke-WebRequest -Uri $url -OutFile $output
-Expand-ZIPFile –File $output –Destination “$PSScriptRoot\”
+Expand-ZIPFile –File $output –Destination $PSScriptRoot
 
 
 Remove-Item -LiteralPath "$PSScriptRoot\temp\" -Force -Recurse
