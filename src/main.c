@@ -993,10 +993,10 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
                 switch (cic)
                 {
                     case 4:
-                    sprintf(cic_type_str, "CIC: CIC-5101", cic);
+                    sprintf(cic_type_str, "CIC: CIC-5101");
                     break;
                     case 7:
-                    sprintf(cic_type_str, "CIC: CIC-5167", cic);
+                    sprintf(cic_type_str, "CIC: CIC-5167");
                     break;
                     default:
                     sprintf(cic_type_str, "CIC: CIC-610%i", cic);
@@ -1410,7 +1410,7 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
         cic = get_cic(&headerdata[0x40]);
 
         unsigned char cartID_short[4];
-        sprintf(cartID_short, "%c%c\0", headerdata[0x3C], headerdata[0x3D]);
+        sprintf(cartID_short, "%c%c%c", headerdata[0x3C], headerdata[0x3D], '\0');
 
         if (get_cic_save(cartID_short, &cic, &save))
         {
@@ -1426,13 +1426,13 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
                 switch (cic)
                 {
                     case 4:
-                    sprintf(cic_type_str, "CIC: CIC-5101", cic);
+                    sprintf(cic_type_str, "CIC: CIC-5101");
                     break;
                     case 7:
-                    sprintf(cic_type_str, "CIC: CIC-5167", cic);
+                    sprintf(cic_type_str, "CIC: CIC-5167");
                     break;
                     default:
-                    sprintf(cic_type_str, "CIC: CIC-610%i", cic);
+                    sprintf(cic_type_str, "CIC: CIC-610%i");
                     break;
                 }
 

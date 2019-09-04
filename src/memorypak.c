@@ -383,7 +383,6 @@ void mpk_to_file(display_context_t disp, char *mpk_filename, int quick)
 {
     u8 buff[64];
     u8 v = 0;
-    u8 ok = 0;
 
     if (quick)
         sprintf(buff, "%s%s", mempak_path, mpk_filename);
