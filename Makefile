@@ -22,7 +22,7 @@ INCLUDE_DIRS = -I$(ROOTDIR)/inc -I$(ROOTDIR)/include -I$(ROOTDIR)/toolchain/gcc-
 
 COMMON_FLAGS = -std=gnu17 -march=vr4300 -mtune=vr4300 -Wall -Wno-pointer-sign -ffunction-sections -fdata-sections -lpthread -lrt -D_REENTRANT -DUSE_TRUETYPE $(INCLUDE_DIRS) $(SET_DEBUG)
 FLAGS_VT = -O0 $(COMMON_FLAGS)
-FLAGS = -O2 -mno-long-calls $(COMMON_FLAGS)
+FLAGS = -O1 -mno-long-calls $(COMMON_FLAGS)
 ASFLAGS = -mtune=vr4300 -march=vr4300
 LINK_FLAGS = -L$(ROOTDIR)/lib -L$(ROOTDIR)/toolchain/gcc-toolchain-mips64/mips64-elf/lib -L$(ROOTDIR)/toolchain/libdragon/lib -lm -lc -ldragon -ldragonsys -lmikmod -lmad -lyaml -Tn64ld.x
 
