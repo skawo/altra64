@@ -2332,7 +2332,7 @@ void drawInputAdd(display_context_t disp, char *msg)
 {
     graphics_draw_box_trans(disp, 23, 5, 272, 18, 0x00000090);
     position++;
-    sprintf(input_text, "%s%s", input_text, msg);
+    snprintf(input_text, sizeof(input_text), "%s%s", input_text, msg);
     drawTextInput(disp, input_text);
 }
 
