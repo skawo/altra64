@@ -225,7 +225,7 @@ void view_mpk_file(display_context_t disp, char *mpk_filename)
                         cAppendix = ___TranslateNotes(&mempak_data[0x300 + (notes_c * 32)], szBuffer);
 
                         if (cAppendix != '\0')
-                            snprintf(szBuffer, sizeof(szBuffer) "%s. %c", szBuffer, cAppendix);
+                            snprintf(szBuffer, sizeof(szBuffer), "%s. %c", szBuffer, cAppendix);
 
                         bFirstChar = 1;
                         for (i = 0; i < (int)strlen(szBuffer); i++)
