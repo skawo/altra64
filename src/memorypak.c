@@ -29,11 +29,11 @@ char *mempak_path;
 
 char ___TranslateNotes(char *bNote, char *Text)
 {
-#pragma warning(disable : 4305 4309)
+//#pragma warning(disable : 4305 4309)
     char cReturn = 0x00;
     const char aSpecial[] = {0x21, 0x22, 0x23, 0x60, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F, 0x3A, 0x3D, 0x3F, 0x40, 0x74, 0xA9, 0xAE};
                         //  { '!' , '\"', '#' , '`' , '*' , '+' , ',' , '-' , '.' , '/' , ':' , '=' , '?' , '>' , 'tm', '(r)','(c)' };
-#pragma warning(default : 4305 4309)
+//#pragma warning(default : 4305 4309)
     int i = 16;
     do
     {
