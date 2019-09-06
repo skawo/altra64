@@ -182,7 +182,7 @@ int save_after_reboot = 0;
 unsigned char cartID[4];
 char curr_dirname[244];
 char pwd[552];
-TCHAR rom_filename[552];
+TCHAR rom_filename[796];
 
 u32 rom_buff[128]; //rom buffer
 u8 *rom_buff8;     //rom buffer
@@ -3797,7 +3797,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
             {
                 //show rom cfg screen
 
-                char name_file[552];
+                char name_file[796];
 
                 if (strcmp(pwd, "/") == 0)
                     sprintf(name_file, "/%s", list[cursor].filename);
@@ -3809,7 +3809,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
                      */
 
                 //TODO: this code is very similar to that used in loadFile, we should move it to a separate function!
-                char _upper_name_file[552];
+                char _upper_name_file[796];
 
                 strcpy(_upper_name_file, name_file);
 
@@ -3915,14 +3915,14 @@ void handleInput(display_context_t disp, sprite_t *contr)
             {
                 //TODO: this code is similar (if not the same) as loadFile and can be optimized!
                 //open
-                char name_file[552];
+                char name_file[796];
 
                 if (strcmp(pwd, "/") == 0)
                     sprintf(name_file, "/%s", list[cursor].filename);
                 else
                     sprintf(name_file, "%s/%s", pwd, list[cursor].filename);
 
-                char _upper_name_file[552];
+                char _upper_name_file[796];
 
                 strcpy(_upper_name_file, name_file);
                 strhicase(_upper_name_file, strlen(_upper_name_file));
@@ -4087,7 +4087,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
         }
         case rom_config_box:
         {
-            char name_file[552];
+            char name_file[796];
 
             if (strcmp(pwd, "/") == 0)
                 sprintf(name_file, "/%s", list[cursor].filename);
