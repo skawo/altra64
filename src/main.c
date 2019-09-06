@@ -988,7 +988,7 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
                 sprintf(save_type_str, "Save: %s", saveTypeToExtension(save, ext_type));
                 printText(save_type_str, 11, -1, disp);
 
-                unsigned char cic_type_str[13];
+                unsigned char cic_type_str[24];
 
                 switch (cic)
                 {
@@ -1421,7 +1421,7 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
                 sprintf(save_type_str, "Save: %s", saveTypeToExtension(save, ext_type));
                 printText(save_type_str, 3, -1, disp);
 
-                unsigned char cic_type_str[13];
+                unsigned char cic_type_str[24];
 
                 switch (cic)
                 {
