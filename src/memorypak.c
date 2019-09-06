@@ -15,6 +15,7 @@
 #include "debug.h"
 #include "strlib.h"
 #include "sys.h"
+#include <stdlib.h>
 
 
 enum MemoryPakFormat
