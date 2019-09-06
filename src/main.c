@@ -2290,7 +2290,7 @@ void bootRom(display_context_t disp, int silent)
 
             char *cheat_filename;
 
-            strLength = snprintf(0, 0, "/ED64/CHEATS/%s.yml", rom_filename);
+            int strLength = snprintf(0, 0, "/ED64/CHEATS/%s.yml", rom_filename);
             //assert(strLength >= 0); // TODO add proper error handling
             cheat_filename = malloc(sizeof(char) * (strLength + 1));
             snprintf(cheat_filename, strLength+1, "/ED64/CHEATS/%s.yml", rom_filename);
@@ -2298,7 +2298,7 @@ void bootRom(display_context_t disp, int silent)
             int ok = readCheatFile(cheat_filename, cheat_lists);
 
             free(cheat_filename);
-            
+
             if (ok == 0)
             {
                 printText("cheats found...", 3, -1, disp);
@@ -2361,8 +2361,15 @@ void drawInputAdd(display_context_t disp, char *msg)
 {
     graphics_draw_box_trans(disp, 23, 5, 272, 18, 0x00000090);
     position++;
-    snprintf(input_text, sizeof(input_text), "%s%s", input_text, msg);
-    drawTextInput(disp, input_text);
+
+    char *text;
+    int strLength = snprintf(0, 0, "%s%s", input_text, msg);
+    //assert(strLength >= 0); // TODO add proper error handling
+    text = malloc(sizeof(char) * (strLength + 1));
+    snprintf(text, strLength+1, "%s%s", input_text, msg);
+
+    drawTextInput(disp, text);
+    free(c_dirname);
 }
 
 //del the last char at the text input screen
