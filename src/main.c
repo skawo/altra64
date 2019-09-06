@@ -911,7 +911,7 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
     TCHAR filename[64];
     sprintf(filename, "%s", buff);
     
-    int swapped = 0;
+    //int swapped = 0;
 
     FRESULT result;
   
@@ -940,7 +940,7 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
 
         if (sw_type != 0)
         {
-            swapped = 1;
+            //swapped = 1;
             swap_header(headerdata, 512);
         }
 
@@ -1093,7 +1093,7 @@ void loadgbrom(display_context_t disp, u8 *buff)
 
         FRESULT result;
         FIL file;
-        UINT bytesread;
+        //UINT bytesread;
         result = f_open(&file, gb_sram_file, FA_WRITE | FA_OPEN_ALWAYS);
     
         if (result == FR_OK)
@@ -1650,7 +1650,7 @@ int saveTypeFromSd(display_context_t disp, char *rom_name, int stype)
 
     if (result == FR_OK)
     {
-        int fsize = f_size(&file);
+        //int fsize = f_size(&file);
 
         result =
         f_read (
@@ -1727,8 +1727,8 @@ int saveTypeToSd(display_context_t disp, char *rom_name, int stype)
 
     FRESULT result;
     FIL file;
-    UINT bytesread;
-    result = f_open(&file, fname, FA_WRITE | FA_OPEN_ALWAYS); //Could use FA_CREATE_ALWAYS but this could lead to the posibility of the file being emptied
+    //UINT bytesread;
+    result = f_open(&file, fname, FA_WRITE | FA_OPEN_ALWAYS); //Could use FA_CREATE_ALWAYS but this could lead to the possibility of the file being emptied
 
     if (result == FR_OK)
     {
@@ -1939,7 +1939,7 @@ void readSDcard(display_context_t disp, char *directory)
 
     FRESULT res;
     DIR dir;
-    UINT i;
+    //UINT i;
     static FILINFO fno;
 
 
@@ -3098,7 +3098,7 @@ void loadFile(display_context_t disp)
             ;
 
         clearScreen(disp);
-        u16 msg = 0;
+        //u16 msg = 0;
         evd_ulockRegs();
         sleep(10);
         sprintf(rom_filename, "%s", list[cursor].filename);
@@ -3182,7 +3182,7 @@ void loadFile(display_context_t disp)
         clearScreen(disp);
         drawShortInfoBox(disp, "      Loading...", 0);
         display_show(disp);
-        long long start = 0, end = 0, curr, pause = 0, samples;
+        long long samples;
         int rate = 44100, last_rate = 44100, channels = 2;
 
         audio_init(44100, 4);
@@ -3983,6 +3983,9 @@ void handleInput(display_context_t disp, sprite_t *contr)
                 drawInputAdd(disp, "Q");
             else if (set == 4)
                 drawInputAdd(disp, "X");
+            break;
+            
+        default:
             break;
         }
     }
