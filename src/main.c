@@ -462,7 +462,7 @@ void display_dir(direntry_t *list, int cursor, int page, int max, int count, dis
         }
      
         strLength = snprintf(0, 0, "%i/%i SD:/%s", pi + 1, ci + 1, pwd);
-        assert(strLength >= 0); // TODO add proper error handling
+        //assert(strLength >= 0); // TODO add proper error handling
         c_dirname = malloc(sizeof(char) * (strLength + 1));
         snprintf(c_dirname, strLength+1, "%i/%i SD:/%s", pi + 1, ci + 1, pwd);
 
@@ -470,7 +470,7 @@ void display_dir(direntry_t *list, int cursor, int page, int max, int count, dis
     else
     {
         strLength = snprintf(0, 0, "SD:/%s", pwd);
-        assert(strLength >= 0); // TODO add proper error handling
+        //assert(strLength >= 0); // TODO add proper error handling
         c_dirname = malloc(sizeof(char) * (strLength + 1));
         snprintf(c_dirname, strLength+1, "SD:/%s", pwd);
     }
@@ -2657,15 +2657,20 @@ void drawToplistBox(display_context_t disp, int line)
                     // if (res != FR_OK) break;
                     // path[i] = 0;
                 } else {                                       /* It is a file. */
-                    TCHAR rom_cfg_file[128];
+                    TCHAR *rom_cfg_file;
                     
                     //set rom_cfg
-                    sprintf(rom_cfg_file, path, fno.fname);
+                    int strLength = snprintf(0, 0, "%i/%i SD:/%s", pi + 1, ci + 1, pwd);
+                    //assert(strLength >= 0); // TODO add proper error handling
+                    rom_cfg_file = malloc(sizeof(char) * (strLength + 1));
+                    snprintf(rom_cfg_file, strLength+1, "%s%s", path, fno.fname);
                     
                     FRESULT result;
                     FIL file;
                     UINT bytesread;
                     result = f_open(&file, rom_cfg_file, FA_READ);
+
+                    free(rom_cfg_file);
                 
                     if (result == FR_OK)
                     {
@@ -4109,18 +4114,22 @@ void handleInput(display_context_t disp, sprite_t *contr)
             else
                 sprintf(name_file, "%s/%s", pwd, list[cursor].filename);
 
-            TCHAR rom_cfg_file[566];
+            TCHAR *rom_cfg_file;
 
             //u8 resp = 0;
 
             //set rom_cfg
-            sprintf(rom_cfg_file, "/ED64/CFG/%s.CFG", rom_filename);
-
+            int strLength = snprintf(0, 0, "/ED64/CFG/%s.CFG", rom_filename);
+            //assert(strLength >= 0); // TODO add proper error handling
+            rom_cfg_file = malloc(sizeof(char) * (strLength + 1));
+            snprintf(rom_cfg_file, strLength+1, "/ED64/CFG/%s.CFG", rom_filename);
 
             FRESULT result;
             FIL file;
             result = f_open(&file, rom_cfg_file, FA_WRITE | FA_OPEN_ALWAYS);
         
+            free(rom_cfg_file);
+
             if (result == FR_OK)
             {
                 static uint8_t cfg_file_data[512] = {0};
