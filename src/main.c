@@ -181,8 +181,8 @@ int save_after_reboot = 0;
 //cart id from the rom header
 unsigned char cartID[4];
 char curr_dirname[64];
-char pwd[64];
-TCHAR rom_filename[256];
+char pwd[308];
+TCHAR rom_filename[308];
 
 u32 rom_buff[128]; //rom buffer
 u8 *rom_buff8;     //rom buffer
@@ -1273,7 +1273,7 @@ void rom_load_y(void)
     FILINFO fno;
 
     u8 gb_sram_file[64];
-    u8 gb_sram_file2[64];
+    u8 gb_sram_file2[72];
     sprintf(gb_sram_file, "%c%c%c%c%c%c%c", 'O', 'S', '6', '4', 'P', '/', 'O');
     sprintf(gb_sram_file2, "%s%c%c%c%c%c%c%c%c", gb_sram_file, 'S', '6', '4', 'P', '.', 'v', '6', '4');
 
@@ -1380,7 +1380,7 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
         if (fast != 1)
         {
             //char 32-51 name
-            unsigned char rom_name[32];
+            unsigned char rom_name[33];
 
             for (int u = 0; u < 19; u++)
             {
@@ -1551,7 +1551,7 @@ int backupSaveData(display_context_t disp)
         //split in save type and cart-id
         save_format = cfg_data[0];
 
-        f_gets(rom_filename, 256, &file);
+        f_gets(rom_filename, 308, &file);
         f_close(&file);
 
         //set savetype to 0 disable for next boot
@@ -2268,7 +2268,7 @@ void bootRom(display_context_t disp, int silent)
             gCheats = 1;
             printText("try to load cheat-file...", 3, -1, disp);
 
-            char cheat_filename[64];
+            char cheat_filename[273];
             sprintf(cheat_filename, "/ED64/CHEATS/%s.yml", rom_filename);
 
             int ok = readCheatFile(cheat_filename, cheat_lists);
@@ -2404,7 +2404,7 @@ void drawShortInfoBox(display_context_t disp, char *text, u8 mode)
 
 void readRomConfig(display_context_t disp, char *short_filename, char *full_filename)
 {
-    TCHAR cfg_filename[256];
+    TCHAR cfg_filename[270];
     sprintf(rom_filename, "%s", short_filename);
     rom_filename[strlen(rom_filename) - 4] = '\0'; // cut extension
     sprintf(cfg_filename, "/ED64/CFG/%s.CFG", rom_filename);
@@ -2612,7 +2612,7 @@ void drawToplistBox(display_context_t disp, int line)
         
         FRESULT res;
         DIR dir;
-        UINT i;
+        UINT i = 0;
         static FILINFO fno;
 
         //TODO: is there a better way we can count the entries perhaps a hashtable?
@@ -3808,8 +3808,8 @@ void handleInput(display_context_t disp, sprite_t *contr)
                      * 1 rom
                      */
 
-                //TODO: this code is very similar to that used in loadFile, we should move it to a seperate function!
-                char _upper_name_file[64];
+                //TODO: this code is very similar to that used in loadFile, we should move it to a separate function!
+                char _upper_name_file[308];
 
                 strcpy(_upper_name_file, name_file);
 
@@ -3913,7 +3913,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
 
             if (list[cursor].type != DT_DIR)
             {
-                //TODO: this code is similar (if not the same) as loadFile and can be optimised!
+                //TODO: this code is similar (if not the same) as loadFile and can be optimized!
                 //open
                 char name_file[308];
 
@@ -3984,7 +3984,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
             else if (set == 4)
                 drawInputAdd(disp, "X");
             break;
-            
+
         default:
             break;
         }
