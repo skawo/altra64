@@ -2236,15 +2236,20 @@ void bootRom(display_context_t disp, int silent)
     {
         if (boot_save != 0)
         {
-            TCHAR cfg_file[32];
+            TCHAR *cfg_file;
 
             //set cfg file with last loaded cart info and save-type
-            sprintf(cfg_file, "/ED64/%s/LASTROM.CFG", save_path);
+            int strLength = snprintf(0, 0, "/ED64/%s/LASTROM.CFG", save_path);
+            //assert(strLength >= 0); // TODO add proper error handling
+            cfg_file = malloc(sizeof(char) * (strLength + 1));
+            snprintf(cfg_file, strLength+1, "/ED64/%s/LASTROM.CFG", save_path);
 
             FRESULT result;
             FIL file;
             result = f_open(&file, cfg_file, FA_WRITE | FA_CREATE_ALWAYS);
-        
+
+            free(cfg_file);
+            
             if (result == FR_OK)
             {
                 uint8_t cfg_data[2] = {boot_save, boot_cic};
@@ -2283,10 +2288,17 @@ void bootRom(display_context_t disp, int silent)
             gCheats = 1;
             printText("try to load cheat-file...", 3, -1, disp);
 
-            char cheat_filename[569];
-            sprintf(cheat_filename, "/ED64/CHEATS/%s.yml", rom_filename);
+            char *cheat_filename;
+
+            strLength = snprintf(0, 0, "/ED64/CHEATS/%s.yml", rom_filename);
+            //assert(strLength >= 0); // TODO add proper error handling
+            cheat_filename = malloc(sizeof(char) * (strLength + 1));
+            snprintf(cheat_filename, strLength+1, "/ED64/CHEATS/%s.yml", rom_filename);
 
             int ok = readCheatFile(cheat_filename, cheat_lists);
+
+            free(cheat_filename);
+            
             if (ok == 0)
             {
                 printText("cheats found...", 3, -1, disp);
@@ -2419,10 +2431,14 @@ void drawShortInfoBox(display_context_t disp, char *text, u8 mode)
 
 void readRomConfig(display_context_t disp, char *short_filename, char *full_filename)
 {
-    TCHAR cfg_filename[566];
+    TCHAR *cfg_filename;
     sprintf(rom_filename, "%s", short_filename);
     rom_filename[strlen(rom_filename) - 4] = '\0'; // cut extension
-    sprintf(cfg_filename, "/ED64/CFG/%s.CFG", rom_filename);
+
+    int strLength = snprintf(0, 0, "/ED64/CFG/%s.CFG", rom_filename);
+    //assert(strLength >= 0); // TODO add proper error handling
+    cfg_filename = malloc(sizeof(char) * (strLength + 1));
+    snprintf(cfg_filename, strLength+1, "/ED64/CFG/%s.CFG", rom_filename);
 
     uint8_t rom_cfg_data[512];
 
@@ -2430,6 +2446,8 @@ void readRomConfig(display_context_t disp, char *short_filename, char *full_file
     FIL file;
     UINT bytesread;
     result = f_open(&file, cfg_filename, FA_READ);
+
+    free(cfg_filename);
 
     if (result == FR_OK)
     {
@@ -3081,35 +3099,29 @@ void loadFile(display_context_t disp)
         sprintf(name_file, "%s/%s", pwd, list[cursor].filename);
 
     int ft = 0;
-    char _upper_name_file[796];
-
-    strcpy(_upper_name_file, name_file);
-
-    strhicase(_upper_name_file, strlen(_upper_name_file));
-    sprintf(_upper_name_file, "%s", _upper_name_file);
 
     u8 extension[4];
     u8 *pch;
-    pch = strrchr(_upper_name_file, '.'); //asd.n64
+    pch = strrchr(name_file, '.'); //asd.n64
 
     sprintf(extension, "%s", (pch + 1)); //0123456
 
 
-    if (!strcmp(extension, "Z64") || !strcmp(extension, "V64") || !strcmp(extension, "N64")) //TODO: an enum would be better
+    if (!strncmpci(extension, "Z64", 4) || !strncmpci(extension, "V64", 4) || !strncmpci(extension, "N64", 4)) //TODO: an enum would be better
         ft = 1;
-    else if (!strcmp(extension, "MPK"))
+    else if (!strncmpci(extension, "MPK", 4))
         ft = 2;
-    if (!strcmp(extension, "GB"))
+    if (!strncmpci(extension, "GB", 4))
         ft = 5;
-    else if (!strcmp(extension, "GBC"))
+    else if (!strncmpci(extension, "GBC", 4))
         ft = 6;
-    else if (!strcmp(extension, "NES"))
+    else if (!strncmpci(extension, "NES", 4))
         ft = 7;
-    else if (!strcmp(extension, "GG"))
+    else if (!strncmpci(extension, "GG", 4))
         ft = 8;
-    else if (!strcmp(extension, "MSX"))
+    else if (!strncmpci(extension, "MSX", 4))
         ft = 9;
-    else if (!strcmp(extension, "MP3"))
+    else if (!strncmpci(extension, "MP3", 4))
         ft = 10;
 
     if (ft != 10 || ft != 2)
@@ -3829,20 +3841,13 @@ void handleInput(display_context_t disp, sprite_t *contr)
                      */
 
                 //TODO: this code is very similar to that used in loadFile, we should move it to a separate function!
-                char _upper_name_file[796];
-
-                strcpy(_upper_name_file, name_file);
-
-                strhicase(_upper_name_file, strlen(_upper_name_file));
-                sprintf(_upper_name_file, "%s", _upper_name_file);
-
                 u8 extension[4];
                 u8 *pch;
-                pch = strrchr(_upper_name_file, '.'); //asd.n64
+                pch = strrchr(name_file, '.'); //asd.n64
 
                 sprintf(extension, "%s", (pch + 1)); //0123456
 
-                if (!strcmp(extension, "Z64") || !strcmp(extension, "V64") || !strcmp(extension, "N64"))
+                if (!strncmpci(extension, "Z64", 4) || !strncmpci(extension, "V64", 4) || !strncmpci(extension, "N64", 4))
                 { //rom
                     //cfg rom
                     sprintf(rom_filename, "%s", list[cursor].filename);

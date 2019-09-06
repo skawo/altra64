@@ -154,8 +154,8 @@ static int MP3_SkipHdr()
     mp3_read(buf, sizeof(buf));
     if (!strncmp((char*)buf, "ID3", 3) || !strncmp((char*)buf, "ea3", 3)) //skip past id3v2 header, which can cause a false sync to be found
     {
-		unsigned int version = buf[3];
-        version = (size<<7) | buf[4];
+		//unsigned int version = buf[3];
+        //version = (size<<7) | buf[4];
 		unsigned int headerflags = buf[5];
         //get the real size from the syncsafe int
         size = buf[6];

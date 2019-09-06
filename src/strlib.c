@@ -7,10 +7,10 @@
 #include "strlib.h"
 #include "types.h"
 
-char *strcpytrim(char *d, // destination
+char *strcpytrim(unsigned char *d, // destination
                  char *s, // source
                  int mode,
-                 char *delim
+                 unsigned char *delim
                  ) {
     char *o = d; // save orig
     char *e = 0; // end space ptr.
