@@ -229,7 +229,7 @@ void view_mpk_file(display_context_t disp, char *mpk_filename)
                         {
                             char *buf = szBuffer;
 
-                            //int strLength = snprintf(0, 0, "%s. %c", buf, cAppendix);
+                            int strLength = snprintf(0, 0, "%s. %c", buf, cAppendix);
                             //assert(strLength >= 0); // TODO add proper error handling
                             //szBuffer = malloc(sizeof(char) * (strLength + 1));
                             snprintf(szBuffer, strLength+1, "%s. %c", buf, cAppendix);
