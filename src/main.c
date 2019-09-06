@@ -111,7 +111,7 @@ typedef struct
 volatile u32 *romaddr_ptr = (u32 *)ROM_ADDR;
 unsigned int gBootCic = CIC_6102;
 
-static void *bg_buffer;
+//static void *bg_buffer;
 void *__safe_bg_buffer;
 
 #define __get_buffer(x) __safe_buffer[(x)-1]
@@ -180,9 +180,9 @@ int save_after_reboot = 0;
 
 //cart id from the rom header
 unsigned char cartID[4];
-char curr_dirname[64];
+char curr_dirname[244];
 char pwd[308];
-TCHAR rom_filename[308];
+TCHAR rom_filename[552];
 
 u32 rom_buff[128]; //rom buffer
 u8 *rom_buff8;     //rom buffer
@@ -443,7 +443,7 @@ void display_dir(direntry_t *list, int cursor, int page, int max, int count, dis
 
     c_pos[c_pos_counter++] = 0;
 
-    u8 c_dirname[64];
+    u8 c_dirname[320];
 
     if (page_display)
     {
@@ -947,7 +947,7 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
         if (silent != 1)
         {
             //char 32-51 name
-            unsigned char rom_name[32];
+            unsigned char rom_name[33];
 
             for (int u = 0; u < 19; u++)
             {
@@ -1537,7 +1537,7 @@ int backupSaveData(display_context_t disp)
     {
         printText("updating last played game record...", 3, 4, disp);
 
-        int fsize = f_size(&file);
+        //int fsize = f_size(&file);
 
 
         result =
@@ -2257,10 +2257,10 @@ void bootRom(display_context_t disp, int silent)
         TRACE(disp, "Cartridge-Savetype set");
         TRACE(disp, "information stored for reboot-save...");
 
-        u32 cart, country;
+        //u32 cart, country;
         u32 info = *(vu32 *)0xB000003C;
-        cart = info >> 16;
-        country = (info >> 8) & 0xFF;
+        //cart = info >> 16;
+        //country = (info >> 8) & 0xFF;
 
         u32 *cheat_lists[2] = {NULL, NULL};
         if (cheats_on)
@@ -2268,7 +2268,7 @@ void bootRom(display_context_t disp, int silent)
             gCheats = 1;
             printText("try to load cheat-file...", 3, -1, disp);
 
-            char cheat_filename[273];
+            char cheat_filename[325];
             sprintf(cheat_filename, "/ED64/CHEATS/%s.yml", rom_filename);
 
             int ok = readCheatFile(cheat_filename, cheat_lists);
@@ -2404,7 +2404,7 @@ void drawShortInfoBox(display_context_t disp, char *text, u8 mode)
 
 void readRomConfig(display_context_t disp, char *short_filename, char *full_filename)
 {
-    TCHAR cfg_filename[270];
+    TCHAR cfg_filename[322];
     sprintf(rom_filename, "%s", short_filename);
     rom_filename[strlen(rom_filename) - 4] = '\0'; // cut extension
     sprintf(cfg_filename, "/ED64/CFG/%s.CFG", rom_filename);
@@ -3053,7 +3053,7 @@ void showAboutScreen(display_context_t disp)
 
 void loadFile(display_context_t disp)
 {
-    char name_file[256];
+    char name_file[552];
 
     if (strcmp(pwd, "/") == 0)
         sprintf(name_file, "/%s", list[cursor].filename);
@@ -3061,7 +3061,7 @@ void loadFile(display_context_t disp)
         sprintf(name_file, "%s/%s", pwd, list[cursor].filename);
 
     int ft = 0;
-    char _upper_name_file[256];
+    char _upper_name_file[552];
 
     strcpy(_upper_name_file, name_file);
 
@@ -3183,7 +3183,7 @@ void loadFile(display_context_t disp)
         drawShortInfoBox(disp, "      Loading...", 0);
         display_show(disp);
         long long samples;
-        int rate = 44100, last_rate = 44100, channels = 2;
+        int rate = 44100, channels = 2;
 
         audio_init(44100, 4);
         buf_size = audio_get_buffer_length() * 4;
@@ -4024,7 +4024,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
 
             if (list[cursor].type == DT_DIR && empty == 0)
             {
-                char name_dir[308];
+                char name_dir[552];
 
                 /* init pwd=/
                          * /
