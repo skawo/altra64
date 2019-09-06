@@ -10,7 +10,7 @@ const char* Altra64_GetVersionString(void)
 {
     char *versionStr;
      
-    int length = snprintf(NULL, sizeof(versionStr), "%s.%s%s", ALTRA64_VERSION, OS_BUILD_VERSION, OS_DEBUG_VERSION);
+    int length = snprintf(0, 0, "%s.%s%s", ALTRA64_VERSION, OS_BUILD_VERSION, OS_DEBUG_VERSION);
 
     assert(length >= 0); // TODO add proper error handling
     versionStr = malloc(sizeof(char) * (length + 1));
