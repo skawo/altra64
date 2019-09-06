@@ -2660,7 +2660,7 @@ void drawToplistBox(display_context_t disp, int line)
                     TCHAR *rom_cfg_file;
                     
                     //set rom_cfg
-                    int strLength = snprintf(0, 0, "%i/%i SD:/%s", pi + 1, ci + 1, pwd);
+                    int strLength = snprintf(0, 0,  "%s%s", path, fno.fname);
                     //assert(strLength >= 0); // TODO add proper error handling
                     rom_cfg_file = malloc(sizeof(char) * (strLength + 1));
                     snprintf(rom_cfg_file, strLength+1, "%s%s", path, fno.fname);
@@ -3942,18 +3942,12 @@ void handleInput(display_context_t disp, sprite_t *contr)
                 else
                     sprintf(name_file, "%s/%s", pwd, list[cursor].filename);
 
-                char _upper_name_file[796];
-
-                strcpy(_upper_name_file, name_file);
-                strhicase(_upper_name_file, strlen(_upper_name_file));
-                sprintf(_upper_name_file, "%s", _upper_name_file);
-
                 u8 extension[4];
                 u8 *pch;
-                pch = strrchr(_upper_name_file, '.');
+                pch = strrchr(name_file, '.');
                 sprintf(extension, "%s", (pch + 1));
 
-                if (!strcmp(extension, "Z64") || !strcmp(extension, "V64") || !strcmp(extension, "N64"))
+                if (!strncmpci(extension, "Z64", 4) || !strncmpci(extension, "V64", 4) || !strncmpci(extension, "N64", 4))
                 { //rom
                     //load rom
                     drawBoxNumber(disp, 3); //rominfo
@@ -3969,7 +3963,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
 
                     input_mapping = abort_screen;
                 }
-                else if (!strcmp(extension, "MPK"))
+                else if (!strncmpci(extension, "MPK", 4))
                 { //mpk file
                     drawBoxNumber(disp, 4);
                     display_show(disp);
