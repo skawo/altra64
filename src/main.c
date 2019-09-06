@@ -3797,7 +3797,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
             {
                 //show rom cfg screen
 
-                char name_file[64];
+                char name_file[308];
 
                 if (strcmp(pwd, "/") == 0)
                     sprintf(name_file, "/%s", list[cursor].filename);
@@ -3915,14 +3915,14 @@ void handleInput(display_context_t disp, sprite_t *contr)
             {
                 //TODO: this code is similar (if not the same) as loadFile and can be optimised!
                 //open
-                char name_file[64];
+                char name_file[308];
 
                 if (strcmp(pwd, "/") == 0)
                     sprintf(name_file, "/%s", list[cursor].filename);
                 else
                     sprintf(name_file, "%s/%s", pwd, list[cursor].filename);
 
-                char _upper_name_file[64];
+                char _upper_name_file[308];
 
                 strcpy(_upper_name_file, name_file);
                 strhicase(_upper_name_file, strlen(_upper_name_file));
@@ -4021,7 +4021,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
 
             if (list[cursor].type == DT_DIR && empty == 0)
             {
-                char name_dir[256];
+                char name_dir[308];
 
                 /* init pwd=/
                          * /
@@ -4084,14 +4084,14 @@ void handleInput(display_context_t disp, sprite_t *contr)
         }
         case rom_config_box:
         {
-            char name_file[256];
+            char name_file[308];
 
             if (strcmp(pwd, "/") == 0)
                 sprintf(name_file, "/%s", list[cursor].filename);
             else
                 sprintf(name_file, "%s/%s", pwd, list[cursor].filename);
 
-            TCHAR rom_cfg_file[128];
+            TCHAR rom_cfg_file[270];
 
             //u8 resp = 0;
 
