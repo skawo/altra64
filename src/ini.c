@@ -91,7 +91,7 @@ int ini_parse_str(char* ini_string,
 #endif
 
 
-	int i=1;
+	//int i=1;
    char *ptr;
    
 // initialisieren und ersten Abschnitt erstellen

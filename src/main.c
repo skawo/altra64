@@ -977,7 +977,7 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
         cic = get_cic(&headerdata[0x40]);
 
         unsigned char cartID_short[4];
-        sprintf(cartID_short, "%c%c\0", headerdata[0x3C], headerdata[0x3D]);
+        sprintf(cartID_short, "%c%c%c", headerdata[0x3C], headerdata[0x3D], '\0');
 
         if (get_cic_save(cartID_short, &cic, &save))
         {
@@ -988,7 +988,7 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
                 sprintf(save_type_str, "Save: %s", saveTypeToExtension(save, ext_type));
                 printText(save_type_str, 11, -1, disp);
 
-                unsigned char cic_type_str[12];
+                unsigned char cic_type_str[13];
 
                 switch (cic)
                 {
@@ -1421,7 +1421,7 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
                 sprintf(save_type_str, "Save: %s", saveTypeToExtension(save, ext_type));
                 printText(save_type_str, 3, -1, disp);
 
-                unsigned char cic_type_str[12];
+                unsigned char cic_type_str[13];
 
                 switch (cic)
                 {
@@ -1832,6 +1832,7 @@ int readConfigFile(void)
             return 1;
         }
     }
+    return 0;
 }
 
 int str2int(char data)
@@ -3468,7 +3469,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
             {
                 FRESULT result;
                 FIL file;
-                UINT bytesread;
+                //UINT bytesread;
                 result = f_open(&file, "/ED64/LASTROM.CFG", FA_READ);
             
                 if (result == FR_OK)
@@ -3936,7 +3937,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
                     //load rom
                     drawBoxNumber(disp, 3); //rominfo
 
-                    u16 msg = 0;
+                    //u16 msg = 0;
                     evd_ulockRegs();
                     sleep(10);
                     sprintf(rom_filename, "%s", list[cursor].filename);
@@ -4091,7 +4092,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
 
             TCHAR rom_cfg_file[128];
 
-            u8 resp = 0;
+            //u8 resp = 0;
 
             //set rom_cfg
             sprintf(rom_cfg_file, "/ED64/CFG/%s.CFG", rom_filename);
