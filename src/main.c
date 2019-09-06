@@ -947,7 +947,7 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
         if (silent != 1)
         {
             //char 32-51 name
-            unsigned char rom_name[33];
+            unsigned char rom_name[34];
 
             for (int u = 0; u < 19; u++)
             {
@@ -2268,7 +2268,7 @@ void bootRom(display_context_t disp, int silent)
             gCheats = 1;
             printText("try to load cheat-file...", 3, -1, disp);
 
-            char cheat_filename[325];
+            char cheat_filename[569];
             sprintf(cheat_filename, "/ED64/CHEATS/%s.yml", rom_filename);
 
             int ok = readCheatFile(cheat_filename, cheat_lists);
@@ -2404,7 +2404,7 @@ void drawShortInfoBox(display_context_t disp, char *text, u8 mode)
 
 void readRomConfig(display_context_t disp, char *short_filename, char *full_filename)
 {
-    TCHAR cfg_filename[322];
+    TCHAR cfg_filename[566];
     sprintf(rom_filename, "%s", short_filename);
     rom_filename[strlen(rom_filename) - 4] = '\0'; // cut extension
     sprintf(cfg_filename, "/ED64/CFG/%s.CFG", rom_filename);
@@ -3797,7 +3797,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
             {
                 //show rom cfg screen
 
-                char name_file[308];
+                char name_file[552];
 
                 if (strcmp(pwd, "/") == 0)
                     sprintf(name_file, "/%s", list[cursor].filename);
@@ -3809,7 +3809,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
                      */
 
                 //TODO: this code is very similar to that used in loadFile, we should move it to a separate function!
-                char _upper_name_file[308];
+                char _upper_name_file[552];
 
                 strcpy(_upper_name_file, name_file);
 
@@ -3915,14 +3915,14 @@ void handleInput(display_context_t disp, sprite_t *contr)
             {
                 //TODO: this code is similar (if not the same) as loadFile and can be optimized!
                 //open
-                char name_file[308];
+                char name_file[552];
 
                 if (strcmp(pwd, "/") == 0)
                     sprintf(name_file, "/%s", list[cursor].filename);
                 else
                     sprintf(name_file, "%s/%s", pwd, list[cursor].filename);
 
-                char _upper_name_file[308];
+                char _upper_name_file[552];
 
                 strcpy(_upper_name_file, name_file);
                 strhicase(_upper_name_file, strlen(_upper_name_file));
@@ -4087,7 +4087,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
         }
         case rom_config_box:
         {
-            char name_file[308];
+            char name_file[552];
 
             if (strcmp(pwd, "/") == 0)
                 sprintf(name_file, "/%s", list[cursor].filename);

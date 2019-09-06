@@ -196,7 +196,7 @@ void view_mpk_file(display_context_t disp, char *mpk_filename)
 
         int notes_c = 0;
 
-        char szBuffer[49],
+        char szBuffer[52],
             cAppendix;
         int bFirstChar;
 
