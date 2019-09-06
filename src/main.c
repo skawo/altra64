@@ -4497,8 +4497,8 @@ int main(void)
         drawBg(disp);           //new
         drawBoxNumber(disp, 1); //new
 
-        //uint32_t *buffer = 
-        (uint32_t *)__get_buffer(disp); //fg disp = 2
+        //uint32_t *buffer = (uint32_t *)__get_buffer(disp); //fg disp = 2
+        *(uint32_t *)__get_buffer(disp); //fg disp = 2
 
         display_show(disp); //new
 

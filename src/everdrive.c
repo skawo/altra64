@@ -543,9 +543,10 @@ void evd_setCfgBit(u8 option, u8 state) {
 
 u16 evd_readReg(u8 reg) {
 
-    volatile u32 tmp;
+    //volatile u32 tmp;
     
-    tmp = regs_ptr[0];
+    //tmp = 
+    regs_ptr[0];
 
     return regs_ptr[reg];
 }

@@ -136,11 +136,13 @@ void memSpiBusy() {
 void memRomWrite32(u32 addr, u32 val) {
 
     vu32 *ptr = (u32 *) (addr + ROM_ADDR);
-    vu8 tmp;
+    //vu8 tmp;
 
-    tmp = *ptr;
+    //tmp = 
+    *ptr;
     *ptr = val;
-    tmp = *ptr;
+    //tmp = 
+    *ptr;
 }
 
 u32 memRomRead32(u32 addr) {
