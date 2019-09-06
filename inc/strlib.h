@@ -22,7 +22,7 @@ enum strtrim_mode_t {
 char *strcpytrim(char *d, // destination
                  char *s, // source
                  int mode,
-                 char *delim
+                 const char *delim
                  );
 
 char *strtriml(char *d, char *s);

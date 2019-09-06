@@ -10,7 +10,7 @@
 char *strcpytrim(char *d, // destination
                  char *s, // source
                  int mode,
-                 unsigned char *delim
+                 const char *delim
                  ) {
     char *o = d; // save orig
     char *e = 0; // end space ptr.
@@ -22,7 +22,7 @@ char *strcpytrim(char *d, // destination
         dtab[*delim++] = 1;
 
     while ( (*d = *s++) != 0 ) { 
-        if (!dtab[*d]) { // Not a match char
+        if (!dtab[0xFF & (unsigned int)*d]) { // Not a match char
             e = 0;       // Reset end pointer
         } else {
             if (!e) e = d;  // Found first match.
