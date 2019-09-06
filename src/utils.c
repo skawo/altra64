@@ -259,7 +259,7 @@ int getFlashRAM( uint8_t *buffer){
     evd_setSaveType(SAVE_TYPE_SRAM96); //2
     sleep(10);
 
-    int s = getSRAM(buffer, SAVE_SIZE_SRAM96);
+    getSRAM(buffer, SAVE_SIZE_SRAM96);
     data_cache_hit_writeback_invalidate(buffer,SAVE_SIZE_SRAM96);
 
     sleep(10);
@@ -331,7 +331,7 @@ int setFlashRAM(uint8_t *buffer){
     evd_setSaveType(SAVE_TYPE_SRAM96); //2
     sleep(10);
 
-    int s = setSRAM(buffer, SAVE_SIZE_SRAM96);
+    setSRAM(buffer, SAVE_SIZE_SRAM96);
 
     evd_setSaveType(SAVE_TYPE_FLASH); //5
 
