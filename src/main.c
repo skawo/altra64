@@ -967,9 +967,15 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
             for (int u = 0; u < 19; u++)
             {
                 if (u != 0)
-                    sprintf(rom_name, "%s%c", rom_name, headerdata[32 + u]);
+                {
+                    char *buf = rom_name;
+                    sprintf(rom_name, "%s%c", buff, headerdata[32 + u]);
+                    free(buff);
+                }
                 else
+                {
                     sprintf(rom_name, "%c", headerdata[32 + u]);
+                }
             }
 
             //rom name
@@ -1400,9 +1406,15 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
             for (int u = 0; u < 19; u++)
             {
                 if (u != 0)
-                    sprintf(rom_name, "%s%c", rom_name, headerdata[32 + u]);
+                {
+                    char *buf = rom_name;
+                    sprintf(rom_name, "%s%c", buff, headerdata[32 + u]);
+                    free(buff);
+                }
                 else
+                {
                     sprintf(rom_name, "%c", headerdata[32 + u]);
+                }
             }
 
             //rom name
@@ -2369,7 +2381,7 @@ void drawInputAdd(display_context_t disp, char *msg)
     snprintf(text, strLength+1, "%s%s", input_text, msg);
 
     drawTextInput(disp, text);
-    free(c_dirname);
+    free(text);
 }
 
 //del the last char at the text input screen
