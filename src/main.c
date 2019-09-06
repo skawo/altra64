@@ -443,7 +443,8 @@ void display_dir(direntry_t *list, int cursor, int page, int max, int count, dis
 
     c_pos[c_pos_counter++] = 0;
 
-    u8 c_dirname[564];
+    char *c_dirname;
+    int strLength = 0;
 
     if (page_display)
     {
@@ -452,18 +453,32 @@ void display_dir(direntry_t *list, int cursor, int page, int max, int count, dis
         u8 ci = 0;
 
         if (count % 20 == 0)
+        {
             ci = (count - 1) / 20;
+        }
         else
+        {
             ci = count / 20;
-        sprintf(c_dirname, "%i/%i SD:/%s", pi + 1, ci + 1, pwd);
+        }
+     
+        strLength = snprintf(NULL, sizeof(c_dirname), "%i/%i SD:/%s", pi + 1, ci + 1, pwd);
+        assert(strLength >= 0); // TODO add proper error handling
+        c_dirname = malloc(sizeof(char) * (strLength + 1));
+        snprintf(c_dirname, strLength+1, "%i/%i SD:/%s", pi + 1, ci + 1, pwd);
+
     }
     else
     {
-        sprintf(c_dirname, "SD:/%s", pwd);
+        strLength = snprintf(NULL, sizeof(c_dirname), "SD:/%s", pwd);
+        assert(strLength >= 0); // TODO add proper error handling
+        c_dirname = malloc(sizeof(char) * (strLength + 1));
+        snprintf(c_dirname, strLength+1, "SD:/%s", pwd);
     }
     char sel_str[128];
 
     printText(c_dirname, 3, 4, disp);
+
+    free(c_dirname);
 
     int firstrun = 1;
     /* Page bounds checking */
