@@ -8,6 +8,7 @@
 #define	_STRLIB_H
 
 #include "types.h"
+#include <stddef.h>
 
 enum strtrim_mode_t {
     STRLIB_MODE_ALL       = 0, 
