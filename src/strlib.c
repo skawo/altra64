@@ -19,7 +19,7 @@ char *strcpytrim(char *d, // destination
 
     if (!delim) delim = " \t\n\f";
     while (*delim) 
-        dtab[*delim++] = 1;
+        dtab[(unsigned int)*delim++] = 1;
 
     while ( (*d = *s++) != 0 ) { 
         if (!dtab[0xFF & (unsigned int)*d]) { // Not a match char
