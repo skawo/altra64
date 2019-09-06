@@ -443,7 +443,7 @@ void display_dir(direntry_t *list, int cursor, int page, int max, int count, dis
 
     c_pos[c_pos_counter++] = 0;
 
-    u8 c_dirname[320];
+    u8 c_dirname[564];
 
     if (page_display)
     {
@@ -947,7 +947,7 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
         if (silent != 1)
         {
             //char 32-51 name
-            unsigned char rom_name[35];
+            unsigned char rom_name[36];
 
             for (int u = 0; u < 19; u++)
             {
@@ -3053,7 +3053,7 @@ void showAboutScreen(display_context_t disp)
 
 void loadFile(display_context_t disp)
 {
-    char name_file[552];
+    char name_file[796];
 
     if (strcmp(pwd, "/") == 0)
         sprintf(name_file, "/%s", list[cursor].filename);
@@ -3061,7 +3061,7 @@ void loadFile(display_context_t disp)
         sprintf(name_file, "%s/%s", pwd, list[cursor].filename);
 
     int ft = 0;
-    char _upper_name_file[552];
+    char _upper_name_file[796];
 
     strcpy(_upper_name_file, name_file);
 
@@ -4024,7 +4024,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
 
             if (list[cursor].type == DT_DIR && empty == 0)
             {
-                char name_dir[552];
+                char name_dir[796];
 
                 /* init pwd=/
                          * /
