@@ -969,8 +969,7 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
                 if (u != 0)
                 {
                     char *buf = rom_name;
-                    sprintf(rom_name, "%s%c", buff, headerdata[32 + u]);
-                    free(buff);
+                    sprintf(rom_name, "%s%c", buf, headerdata[32 + u]);
                 }
                 else
                 {
@@ -1408,8 +1407,7 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
                 if (u != 0)
                 {
                     char *buf = rom_name;
-                    sprintf(rom_name, "%s%c", buff, headerdata[32 + u]);
-                    free(buff);
+                    sprintf(rom_name, "%s%c", buf, headerdata[32 + u]);
                 }
                 else
                 {

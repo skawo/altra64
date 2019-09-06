@@ -7,7 +7,7 @@
 #include "strlib.h"
 #include "types.h"
 
-char *strcpytrim(unsigned char *d, // destination
+char *strcpytrim(int *d, // destination
                  char *s, // source
                  int mode,
                  unsigned char *delim
