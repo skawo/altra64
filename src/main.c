@@ -181,7 +181,7 @@ int save_after_reboot = 0;
 //cart id from the rom header
 unsigned char cartID[4];
 char curr_dirname[244];
-char pwd[308];
+char pwd[552];
 TCHAR rom_filename[552];
 
 u32 rom_buff[128]; //rom buffer
@@ -947,7 +947,7 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
         if (silent != 1)
         {
             //char 32-51 name
-            unsigned char rom_name[34];
+            unsigned char rom_name[35];
 
             for (int u = 0; u < 19; u++)
             {
@@ -4094,7 +4094,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
             else
                 sprintf(name_file, "%s/%s", pwd, list[cursor].filename);
 
-            TCHAR rom_cfg_file[270];
+            TCHAR rom_cfg_file[566];
 
             //u8 resp = 0;
 
