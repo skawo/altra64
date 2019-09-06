@@ -20,11 +20,11 @@ PROG_NAME = OS64
 
 INCLUDE_DIRS = -I$(ROOTDIR)/inc -I$(ROOTDIR)/include -I$(ROOTDIR)/toolchain/gcc-toolchain-mips64/include -I$(ROOTDIR)/toolchain/gcc-toolchain-mips64/mips64-elf/include -I$(ROOTDIR)/toolchain/libdragon/include
 
-COMMON_FLAGS = -std=gnu17 -march=vr4300 -mtune=vr4300 -Wall -Wrestrict -Wno-pointer-sign -D_REENTRANT -DUSE_TRUETYPE -G0 $(INCLUDE_DIRS) $(SET_DEBUG)
+COMMON_FLAGS = -std=gnu17 -march=vr4300 -mtune=vr4300 -Wall -Wrestrict -Wno-pointer-sign -D_REENTRANT -DUSE_TRUETYPE $(INCLUDE_DIRS) $(SET_DEBUG)
 FLAGS_VT = -O2 $(COMMON_FLAGS)
 FLAGS = -O2 $(COMMON_FLAGS)
 ASFLAGS = -mtune=vr4300 -march=vr4300
-LINK_FLAGS = -L$(ROOTDIR)/lib -L$(ROOTDIR)/toolchain/gcc-toolchain-mips64/mips64-elf/lib -L$(ROOTDIR)/toolchain/libdragon/lib -ldragon -lmikmod -lmad -lyaml -lm -lc -lg -lnosys -ldragonsys -Tn64ld.x
+LINK_FLAGS = -G0 -L$(ROOTDIR)/lib -L$(ROOTDIR)/toolchain/gcc-toolchain-mips64/mips64-elf/lib -L$(ROOTDIR)/toolchain/libdragon/lib -ldragon -lmikmod -lmad -lyaml -lm -lc -lg -lnosys -ldragonsys -Tn64ld.x
 
 GCCN64PREFIX = $(ROOTDIR)/toolchain/gcc-toolchain-mips64/bin/mips64-elf-
 CC = $(GCCN64PREFIX)gcc.exe
