@@ -1599,7 +1599,8 @@ int backupSaveData(display_context_t disp)
             TRACE(disp, "Disabling save for subsequent system reboots");
 
             volatile u8 save_config_state = 0;
-            int cfgreg = evd_readReg(REG_CFG);
+            //int cfgreg = 
+            evd_readReg(REG_CFG);
             save_config_state = evd_readReg(REG_SAV_CFG);
 
             if (save_config_state != 0 || evd_getFirmVersion() >= 0x0300)
@@ -2288,7 +2289,8 @@ void bootRom(display_context_t disp, int silent)
         TRACE(disp, "information stored for reboot-save...");
 
         //u32 cart, country;
-        u32 info = *(vu32 *)0xB000003C;
+        //u32 info = 
+        *(vu32 *)0xB000003C;
         //cart = info >> 16;
         //country = (info >> 8) & 0xFF;
 
@@ -4390,7 +4392,8 @@ int main(void)
         configure();
 
         //fast boot for backup-save data
-        int sj = evd_readReg(REG_CFG); // not sure if this is needed!
+        //int sj = 
+        evd_readReg(REG_CFG); // not sure if this is needed!
         int save_job = evd_readReg(REG_SAV_CFG); //TODO: or the firmware is V3
 
         if (save_job != 0)
@@ -4494,7 +4497,8 @@ int main(void)
         drawBg(disp);           //new
         drawBoxNumber(disp, 1); //new
 
-        uint32_t *buffer = (uint32_t *)__get_buffer(disp); //fg disp = 2
+        //uint32_t *buffer = 
+        (uint32_t *)__get_buffer(disp); //fg disp = 2
 
         display_show(disp); //new
 

@@ -146,10 +146,11 @@ void memRomWrite32(u32 addr, u32 val) {
 u32 memRomRead32(u32 addr) {
 
     vu32 *ptr = (u32 *) (addr + ROM_ADDR);
-    vu8 tmp;
+    //vu8 tmp;
     vu32 val;
 
-    tmp = *ptr;
+    //tmp = 
+    *ptr;
     val = *ptr;
 
     return val;

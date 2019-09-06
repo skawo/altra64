@@ -182,32 +182,39 @@ void bi_load_firmware(u8 *firm) {
 
 void evd_init() {
 
-    volatile u8 val;
+    //volatile u8 val;
     sd_mode = 0;
     dma_busy_callback = 0;
 
     sleep(1);
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
 
     spi_cfg = (0 << SPI_CFG_SPD0) | (1 << SPI_CFG_SPD1) | (1 << SPI_CFG_SS);
     evd_cfg = (1 << ED_CFG_SDRAM_ON);
 
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_KEY] = 0x1234;
 
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_CFG] = evd_cfg;
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_SPI_CFG] = spi_cfg;
 
     evd_fifoRxf();
     if (!evd_fifoRxf()) {
 
-        val = regs_ptr[0];
+        //val = 
+        regs_ptr[0];
         regs_ptr[REG_DMA_LEN] = 7; //clean 16k
-        val = regs_ptr[0];
+        //val = 
+        regs_ptr[0];
         regs_ptr[REG_DMA_RAM_ADDR] = (ROM_LEN - 0x200000) / 2048;
-        val = regs_ptr[0];
+        //val = 
+        regs_ptr[0];
         regs_ptr[REG_DMA_CFG] = DCFG_FIFO_TO_RAM;
         while (evd_isDmaBusy());
     }   
@@ -215,14 +222,20 @@ void evd_init() {
 
 void  evd_ulockRegs(){
 
-    *(vu32 *) regs_ptr[0];
-    *(vu32 *) regs_ptr[REG_KEY] = 0x1234;
+    //volatile u8 val;
+
+    //val = 
+    regs_ptr[0];
+    regs_ptr[REG_KEY] = 0x1234;
 }
 
 void evd_lockRegs() {
 
-    *(vu32 *) regs_ptr[0];
-    *(vu32 *) regs_ptr[REG_KEY] = 0;
+    //volatile u8 val;
+
+    //val = 
+    regs_ptr[0];
+    regs_ptr[REG_KEY] = 0;
 }
 
 u8 evd_fifoRxf() {
@@ -266,14 +279,17 @@ u8 evd_isDmaTimeout() {
 
 u8 evd_fifoRdToCart(u32 cart_addr, u16 blocks) {
 
-    volatile u8 val;
+    //volatile u8 val;
     cart_addr /= 2048;
 
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_LEN] = (blocks - 1);
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_RAM_ADDR] = cart_addr;
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_CFG] = DCFG_FIFO_TO_RAM;
 
     while (evd_isDmaBusy());
@@ -284,14 +300,17 @@ u8 evd_fifoRdToCart(u32 cart_addr, u16 blocks) {
 
 u8 evd_fifoWrFromCart(u32 cart_addr, u16 blocks) {
 
-    volatile u8 val;
+    //volatile u8 val;
     cart_addr /= 2048;
 
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_LEN] = (blocks - 1);
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_RAM_ADDR] = cart_addr;
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_CFG] = DCFG_RAM_TO_FIFO;
 
     while (evd_isDmaBusy());
@@ -302,15 +321,18 @@ u8 evd_fifoWrFromCart(u32 cart_addr, u16 blocks) {
 
 u8 evd_fifoRd(void *buff, u16 blocks) {
 
-    volatile u8 val;
+    //volatile u8 val;
     u32 len = blocks == 0 ? 65536 * 512 : blocks * 512;
     u32 ram_buff_addr = DMA_BUFF_ADDR / 2048; //(ROM_LEN - len - 65536 * 4) / 2048;
 
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_LEN] = (blocks - 1);
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_RAM_ADDR] = ram_buff_addr;
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_CFG] = DCFG_FIFO_TO_RAM;
 
     while (evd_isDmaBusy());
@@ -324,17 +346,20 @@ u8 evd_fifoRd(void *buff, u16 blocks) {
 
 u8 evd_fifoWr(void *buff, u16 blocks) {
 
-    volatile u8 val;
+    //volatile u8 val;
     u32 len = blocks == 0 ? 65536 * 512 : blocks * 512;
     u32 ram_buff_addr = DMA_BUFF_ADDR / 2048; //(ROM_LEN - len - 65536 * 4) / 2048;
 
     dma_write_s(buff, (0xb0000000 + ram_buff_addr * 1024 * 2), len);
 
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_LEN] = (blocks - 1);
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_RAM_ADDR] = ram_buff_addr;
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_CFG] = DCFG_RAM_TO_FIFO;
 
     while (evd_isDmaBusy());
@@ -368,17 +393,23 @@ u8 evd_SPI(u8 dat) {
 
 void evd_spiSSOn() {
 
+    //volatile u8 val;
+
     if (sd_mode)return;
     spi_cfg &= ~(1 << SPI_CFG_SS);
-    *(vu32 *) regs_ptr[0];
-    *(vu32 *) regs_ptr[REG_SPI_CFG] = spi_cfg;
+    //val = 
+    regs_ptr[0];
+    regs_ptr[REG_SPI_CFG] = spi_cfg;
 }
 
 void evd_spiSSOff() {
 
+    //volatile u8 val;
+
     spi_cfg |= (1 << SPI_CFG_SS);
-    *(vu32 *) regs_ptr[0];
-    *(vu32 *) regs_ptr[REG_SPI_CFG] = spi_cfg;
+    //val = 
+    regs_ptr[0];
+    regs_ptr[REG_SPI_CFG] = spi_cfg;
 }
 
 void evd_enableSDMode() {
@@ -398,7 +429,7 @@ u8 evd_isSDMode() {
 
 void evd_SDcmdWriteMode(u8 bit1_mode) {
 
-    volatile u8 val;
+    //volatile u8 val;
 
     if (!sd_mode)return;
     spi_cfg &= ~((1 << SPI_CFG_RD) | (1 << SPI_CFG_DAT));
@@ -407,14 +438,15 @@ void evd_SDcmdWriteMode(u8 bit1_mode) {
     } else {
         spi_cfg &= ~(1 << SPI_CFG_1BIT);
     }
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_SPI_CFG] = spi_cfg;
 
 }
 
 void evd_SDcmdReadMode(u8 bit1_mode) {
 
-    volatile u8 val;
+    //volatile u8 val;
 
     if (!sd_mode)return;
     spi_cfg |= (1 << SPI_CFG_RD);
@@ -424,13 +456,14 @@ void evd_SDcmdReadMode(u8 bit1_mode) {
     } else {
         spi_cfg &= ~(1 << SPI_CFG_1BIT);
     }
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_SPI_CFG] = spi_cfg;
 }
 
 void evd_SDdatWriteMode(u8 bit4_mode) {
 
-    volatile u8 val;
+    //volatile u8 val;
 
     if (!sd_mode)return;
     spi_cfg &= ~(1 << SPI_CFG_RD);
@@ -440,11 +473,14 @@ void evd_SDdatWriteMode(u8 bit4_mode) {
     } else {
         spi_cfg &= ~(1 << SPI_CFG_1BIT);
     }
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_SPI_CFG] = spi_cfg;
 }
 
 void evd_SDdatReadMode(u8 bit4_mode) {
+
+    //volatile u8 val;
 
     if (!sd_mode)return;
     spi_cfg |= (1 << SPI_CFG_RD) | (1 << SPI_CFG_DAT);
@@ -453,28 +489,35 @@ void evd_SDdatReadMode(u8 bit4_mode) {
     } else {
         spi_cfg &= ~(1 << SPI_CFG_1BIT);
     }
-    *(vu32 *) regs_ptr[0];
-    *(vu32 *) regs_ptr[REG_SPI_CFG] = spi_cfg;
+    //val = 
+    regs_ptr[0];
+    regs_ptr[REG_SPI_CFG] = spi_cfg;
 }
 
 void evd_setSpiSpeed(u8 speed) {
 
+    //volatile u8 val;
+
     spi_cfg &= ~3; //((1 << SPI_CFG_SPD0) | (1 << SPI_CFG_SPD1));
     spi_cfg |= speed & 3;
-    *(vu32 *) regs_ptr[0];
-    *(vu32 *) regs_ptr[REG_SPI_CFG] = spi_cfg;
+    //val = 
+    regs_ptr[0];
+    regs_ptr[REG_SPI_CFG] = spi_cfg;
 }
 
 u8 evd_mmcReadToCart(u32 cart_addr, u32 len) {
 
-    volatile u8 val;
+    //volatile u8 val;
     cart_addr /= 2048;
 
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_LEN] = (len - 1);
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_RAM_ADDR] = cart_addr;
-    val = regs_ptr[0];
+    //val = 
+    regs_ptr[0];
     regs_ptr[REG_DMA_CFG] = DCFG_SD_TO_RAM;
 
     while (evd_isDmaBusy());
@@ -485,13 +528,17 @@ u8 evd_mmcReadToCart(u32 cart_addr, u32 len) {
 
 void evd_setCfgBit(u8 option, u8 state) {
 
+    //volatile u8 val;
+
     if (state)evd_cfg |= (1 << option);
     else
         evd_cfg &= ~(1 << option);
 
-    *(vu32 *) regs_ptr[0];
-    *(vu32 *) regs_ptr[REG_CFG] = evd_cfg;
-    *(vu32 *) regs_ptr[0];
+    //val = 
+    regs_ptr[0];
+    regs_ptr[REG_CFG] = evd_cfg;
+    //val = 
+    regs_ptr[0];
 }
 
 u16 evd_readReg(u8 reg) {
@@ -536,14 +583,18 @@ void evd_setSaveType(u8 type) {
             break;
     }
 
-    *(vu32 *) regs_ptr[0];
-    *(vu32 *) regs_ptr[REG_SAV_CFG] = (eeprom_on << SAV_EEP_ON | sram_on << SAV_SRM_ON | eeprom_size << SAV_EEP_SIZE | sram_size << SAV_SRM_SIZE);
+    //volatile u8 val;
+    //val = 
+    regs_ptr[0];
+    regs_ptr[REG_SAV_CFG] = (eeprom_on << SAV_EEP_ON | sram_on << SAV_SRM_ON | eeprom_size << SAV_EEP_SIZE | sram_size << SAV_SRM_SIZE);
 }
 
 void evd_writeReg(u8 reg, u16 val) {
 
-    *(vu32 *) regs_ptr[0];
-    *(vu32 *) regs_ptr[reg] = val;
+    //volatile u8 tmp;
+    //tmp = 
+    regs_ptr[0];
+    regs_ptr[reg] = val;
 }
 
 void evd_mmcSetDmaSwap(u8 state) {
