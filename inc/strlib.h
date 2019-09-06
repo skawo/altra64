@@ -41,5 +41,6 @@ u8 streq(u8 *str1, u8 *str2);
 u8 streql(u8 *str1, u8 *str2, u8 len);
 
 u16 strContain(u8 *target, u8 *str);
+static inline int strncmpci(const char * str1, const char * str2, size_t num);
 
 #endif
