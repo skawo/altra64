@@ -1432,7 +1432,7 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
                     sprintf(cic_type_str, "CIC: CIC-5167");
                     break;
                     default:
-                    sprintf(cic_type_str, "CIC: CIC-610%i");
+                    sprintf(cic_type_str, "CIC: CIC-610%i", cic);
                     break;
                 }
 
@@ -1769,6 +1769,7 @@ int saveTypeToSd(display_context_t disp, char *rom_name, int stype)
     {
         TRACE(disp, "COULDNT CREATE FILE :-(");
     }
+    return 0;
 }
 
 //check out the userfriendly ini file for config-information
@@ -4469,8 +4470,7 @@ int main(void)
 
         position = 0;
         set = 1;
-        sprintf(input_text, "");
-
+        input_text[0]=0; //sprintf(input_text, "");
         //sprite for chr input
         int fp = dfs_open("/sprites/n64controller.sprite");
         sprite_t *contr = malloc(dfs_size(fp));

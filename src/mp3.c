@@ -409,7 +409,9 @@ static void MP3_GetInfo(long long *samples, int *rate)
 	mad_stream_finish (&stream);
 
     if (localBuffer)
+	{
     	free(localBuffer);
+	}
 
 	mp3_seek(0, SEEK_SET);
 }
