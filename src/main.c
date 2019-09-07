@@ -3207,7 +3207,8 @@ void loadFile(display_context_t disp)
         display_show(disp);
         drawShortInfoBox(disp, " L=Restore  R=Backup", 2);
         input_mapping = mpk_choice;
-        sprintf(rom_filename, "%s", name_file);
+        rom_filename = name_file;
+        //sprintf(rom_filename, "%s", name_file);
         break;
     case 5:
     case 6:
@@ -4008,7 +4009,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
                     }
                     else
                     {
-                        sprintf(rom_filename, "%s/%s", pwd, list[cursor].filename);
+                        //sprintf(rom_filename, "%s/%s", pwd, list[cursor].filename);
                     }
 
                     view_mpk_file(disp, rom_filename);
@@ -4103,8 +4104,8 @@ void handleInput(display_context_t disp, sprite_t *contr)
                     name_dir = malloc(sizeof(char) * (strLength + 1));
                     snprintf(name_dir, strLength+1, "%s/%s", pwd, list[cursor].filename);
                 }
-
-                sprintf(curr_dirname, "%s", list[cursor].filename);
+                curr_dirname = list[cursor].filename
+                //sprintf(curr_dirname, "%s", list[cursor].filename);
                 sprintf(pwd, "%s", name_dir);
 
                 free(name_dir);
@@ -4525,7 +4526,6 @@ int main(void)
         drawBoxNumber(disp, 1); //new
 
         //uint32_t *buffer = (uint32_t *)__get_buffer(disp); //fg disp = 2
-        *(uint32_t *)__get_buffer(disp); //fg disp = 2
 
         display_show(disp); //new
 
