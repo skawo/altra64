@@ -4105,7 +4105,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
                     snprintf(name_dir, strLength+1, "%s/%s", pwd, list[cursor].filename);
                 }
 
-                strcpy(curr_dirname, "%s", list[cursor].filename);
+                strcpy(curr_dirname, list[cursor].filename);
                 sprintf(pwd, "%s", name_dir);
 
                 free(name_dir);
