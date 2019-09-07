@@ -4009,7 +4009,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
                     }
                     else
                     {
-                        //sprintf(rom_filename, "%s/%s", pwd, list[cursor].filename);
+                        sprintf(rom_filename, "%s/%s", pwd, list[cursor].filename);
                     }
 
                     view_mpk_file(disp, rom_filename);
@@ -4104,8 +4104,8 @@ void handleInput(display_context_t disp, sprite_t *contr)
                     name_dir = malloc(sizeof(char) * (strLength + 1));
                     snprintf(name_dir, strLength+1, "%s/%s", pwd, list[cursor].filename);
                 }
-                curr_dirname = list[cursor].filename
-                //sprintf(curr_dirname, "%s", list[cursor].filename);
+
+                strcpy(curr_dirname, "%s", list[cursor].filename);
                 sprintf(pwd, "%s", name_dir);
 
                 free(name_dir);
