@@ -3959,12 +3959,22 @@ void handleInput(display_context_t disp, sprite_t *contr)
             {
                 //TODO: this code is similar (if not the same) as loadFile and can be optimized!
                 //open
-                char name_file[796];
+                char *name_file;
 
                 if (strcmp(pwd, "/") == 0)
-                    sprintf(name_file, "/%s", list[cursor].filename);
+                {
+                    int strLength = snprintf(0, 0, "/%s", list[cursor].filename);
+                    //assert(strLength >= 0); // TODO add proper error handling
+                    name_file = malloc(sizeof(char) * (strLength + 1));
+                    snprintf(name_file, strLength+1, "/%s", list[cursor].filename);
+                }
                 else
-                    sprintf(name_file, "%s/%s", pwd, list[cursor].filename);
+                {
+                    int strLength = snprintf(0, 0, "%s/%s", pwd, list[cursor].filename);
+                    //assert(strLength >= 0); // TODO add proper error handling
+                    name_file = malloc(sizeof(char) * (strLength + 1));
+                    snprintf(name_file, strLength+1, "/%s", list[cursor].filename);
+                }
 
                 u8 extension[4];
                 u8 *pch;
@@ -3993,9 +4003,13 @@ void handleInput(display_context_t disp, sprite_t *contr)
                     display_show(disp);
 
                     if (strcmp(pwd, "/") == 0)
+                    {
                         sprintf(rom_filename, "/%s", list[cursor].filename);
+                    }
                     else
+                    {
                         sprintf(rom_filename, "%s/%s", pwd, list[cursor].filename);
+                    }
 
                     view_mpk_file(disp, rom_filename);
 
@@ -4004,6 +4018,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
 
                     input_mapping = abort_screen;
                 }
+                free(name_file);
             } //mapping and not dir
             break;
 

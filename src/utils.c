@@ -20,8 +20,8 @@ extern short int gCheats;               /* 0 = off, 1 = select, 2 = all */
 extern short int force_tv;
 extern short int boot_country;
 
-static u8 __attribute__((aligned(16))) dmaBuf[128*1024];
-static volatile struct _PI_regs_s * const _PI_regs = (struct _PI_regs_s *)0xa4600000;
+//static u8 __attribute__((aligned(16))) dmaBuf[128*1024];
+//static volatile struct _PI_regs_s * const _PI_regs = (struct _PI_regs_s *)0xa4600000;
 
 
 
