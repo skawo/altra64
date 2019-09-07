@@ -180,8 +180,8 @@ int save_after_reboot = 0;
 
 //cart id from the rom header
 unsigned char cartID[4];
-char curr_dirname[64];
-char pwd[64];
+char curr_dirname[256];
+char pwd[308];
 TCHAR rom_filename[256];
 
 u32 rom_buff[128]; //rom buffer
