@@ -4062,7 +4062,7 @@ void handleInput(display_context_t disp, sprite_t *contr)
 
             if (list[cursor].type == DT_DIR && empty == 0)
             {
-                char name_dir[796];
+                char *name_dir;
 
                 /* init pwd=/
                          * /
@@ -4075,12 +4075,24 @@ void handleInput(display_context_t disp, sprite_t *contr)
                          */
 
                 if (strcmp(pwd, "/") == 0)
-                    sprintf(name_dir, "/%s", list[cursor].filename);
+                {
+                    int strLength = snprintf(0, 0, "/%s", list[cursor].filename);
+                    //assert(strLength >= 0); // TODO add proper error handling
+                    name_dir = malloc(sizeof(char) * (strLength + 1));
+                    snprintf(name_dir, strLength+1, "/%s", list[cursor].filename);
+                }
                 else
-                    sprintf(name_dir, "%s/%s", pwd, list[cursor].filename);
+                {
+                    int strLength = snprintf(0, 0, "%s/%s", pwd, list[cursor].filename);
+                    //assert(strLength >= 0); // TODO add proper error handling
+                    name_dir = malloc(sizeof(char) * (strLength + 1));
+                    snprintf(name_dir, strLength+1, "%s/%s", pwd, list[cursor].filename);
+                }
 
                 sprintf(curr_dirname, "%s", list[cursor].filename);
                 sprintf(pwd, "%s", name_dir);
+
+                free(name_dir);
 
                 //load dir
                 cursor_lastline = 0;
