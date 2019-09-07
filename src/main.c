@@ -3207,7 +3207,7 @@ void loadFile(display_context_t disp)
         display_show(disp);
         drawShortInfoBox(disp, " L=Restore  R=Backup", 2);
         input_mapping = mpk_choice;
-        rom_filename = name_file;
+        strcpy(rom_filename, name_file);
         //sprintf(rom_filename, "%s", name_file);
         break;
     case 5:
