@@ -266,8 +266,7 @@ static void decode()
 		else if (Stream.error == MAD_ERROR_LOSTSYNC)
         {
 			/* LOSTSYNC - due to ID3 tags? */
-            int tagsize = 0;
-			tagsize = id3_tag_size(Stream.this_frame, Stream.bufend - Stream.this_frame);
+            int tagsize = id3_tag_size(Stream.this_frame, Stream.bufend - Stream.this_frame);
             if (tagsize > 0)
             {
 				mad_stream_skip (&Stream, tagsize);

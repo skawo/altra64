@@ -962,18 +962,25 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
         if (silent != 1)
         {
             //char 32-51 name
-            unsigned char rom_name[36];
+            unsigned char *rom_name;
+            int strLength = 0;
 
             for (int u = 0; u < 19; u++)
             {
                 if (u != 0)
                 {
-                    char *buf = rom_name;
-                    sprintf(rom_name, "%s%c", buf, headerdata[32 + u]);
+                    unsigned char *buf = rom_name;
+                    strLength = snprintf(0, 0, "%s%c", buf, headerdata[32 + u]);
+                    //assert(strLength >= 0); // TODO add proper error handling
+                    rom_name = malloc(sizeof(char) * (strLength + 1));
+                    snprintf(rom_name, strLength+1, "%s%c", buf, headerdata[32 + u]);
                 }
                 else
                 {
-                    sprintf(rom_name, "%c", headerdata[32 + u]);
+                    strLength = snprintf(0, 0, "%c", headerdata[32 + u]);
+                    //assert(strLength >= 0); // TODO add proper error handling
+                    rom_name = malloc(sizeof(char) * (strLength + 1));
+                    snprintf(rom_name, strLength+1, "%c", headerdata[32 + u]);
                 }
             }
 
@@ -984,6 +991,8 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
             //rom size
             sprintf(rom_name, "Size: %iMB", fsizeMB);
             printText(rom_name, 11, -1, disp);
+
+            free(rom_name);
         
 
             //unique cart id for gametype
@@ -1400,18 +1409,26 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
         if (fast != 1)
         {
             //char 32-51 name
-            unsigned char rom_name[33];
+            unsigned char *rom_name;
+            int strLength = 0;
 
             for (int u = 0; u < 19; u++)
             {
                 if (u != 0)
                 {
-                    char *buf = rom_name;
-                    sprintf(rom_name, "%s%c", buf, headerdata[32 + u]);
+                    unsigned char *buf = rom_name;
+
+                    strLength = snprintf(0, 0, "%s%c", buf, headerdata[32 + u]);
+                    //assert(strLength >= 0); // TODO add proper error handling
+                    rom_name = malloc(sizeof(char) * (strLength + 1));
+                    snprintf(rom_name, strLength+1, "%s%c", buf, headerdata[32 + u]);
                 }
                 else
                 {
-                    sprintf(rom_name, "%c", headerdata[32 + u]);
+                    strLength = snprintf(0, 0, "%c", headerdata[32 + u]);
+                    //assert(strLength >= 0); // TODO add proper error handling
+                    rom_name = malloc(sizeof(char) * (strLength + 1));
+                    snprintf(rom_name, strLength+1, "%c", headerdata[32 + u]);
                 }
             }
 
@@ -1422,6 +1439,8 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
             //rom size
             sprintf(rom_name, "Size: %iMB", fsizeMB);
             printText(rom_name, 3, -1, disp);
+
+            free(rom_name);
         
 
             //unique cart id for gametype
