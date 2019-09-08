@@ -962,14 +962,14 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
         if (silent != 1)
         {
             //char 32-51 name
-            unsigned char *rom_name;
+            char *rom_name;
             
 
             for (int u = 0; u < 19; u++)
             {
                 if (u != 0)
                 {
-                    unsigned char *buf = rom_name;
+                    char *buf = rom_name;
                     int strLength = snprintf(0, 0, "%s%c", rom_name, headerdata[32 + u]);
                     //assert(strLength >= 0); // TODO add proper error handling
                     rom_name = malloc(sizeof(char) * (strLength + 1));
@@ -1409,13 +1409,13 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
         if (fast != 1)
         {
             //char 32-51 name
-            unsigned char *rom_name;
+            char *rom_name;
 
             for (int u = 0; u < 19; u++)
             {
                 if (u != 0)
                 {
-                    unsigned char *buf = rom_name;
+                    char *buf = rom_name;
 
                     int strLength = snprintf(0, 0, "%s%c", rom_name, headerdata[32 + u]);
                     //assert(strLength >= 0); // TODO add proper error handling
