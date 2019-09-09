@@ -269,7 +269,9 @@ static void decode()
             int tagsize = id3_tag_size(Stream.this_frame, Stream.bufend - Stream.this_frame);
             if (tagsize > 0)
             {
+#pragma GCC diagnostic ignored "-Wuninitialized" //TODO: correct the lib?!
 				mad_stream_skip (&Stream, tagsize);
+#pragma GCC diagnostic pop
                 continue;
 			}
 		}
