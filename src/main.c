@@ -962,8 +962,9 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
         if (silent != 1)
         {
             //char 32-51 name
-            unsigned char *rom_name = substr(headerdata, 32, 19);
-            
+            unsigned char rom_name[20];
+
+            snprintf("%.*s", 32, headerdata + 19);
 
             // for (int u = 0; u < 19; u++)
             // {
@@ -1409,7 +1410,9 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
         if (fast != 1)
         {
             //char 32-51 name
-            unsigned char *rom_name = substr(headerdata, 32, 19);
+            unsigned char rom_name[20];
+
+            snprintf("%.*s", 32, headerdata + 19);
 
             // for (int u = 0; u < 19; u++)
             // {
