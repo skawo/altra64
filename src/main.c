@@ -992,10 +992,7 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
             //rom size
             sprintf(rom_name, "Size: %iMB", fsizeMB);
             printText(rom_name, 11, -1, disp);
-
-            free(rom_name);
         
-
             //unique cart id for gametype
             unsigned char cartID_str[12];
             sprintf(cartID_str, "ID: %c%c%c%c", headerdata[0x3B], headerdata[0x3C], headerdata[0x3D], headerdata[0x3E]);
@@ -1440,10 +1437,7 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
 
             //rom size
             sprintf(rom_name, "Size: %iMB", fsizeMB);
-            printText(rom_name, 3, -1, disp);
-
-            free(rom_name);
-        
+            printText(rom_name, 3, -1, disp);        
 
             //unique cart id for gametype
             unsigned char cartID_str[12];
