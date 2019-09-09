@@ -993,6 +993,7 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
             sprintf(rom_name, "Size: %iMB", fsizeMB);
             printText(rom_name, 11, -1, disp);
         
+
             //unique cart id for gametype
             unsigned char cartID_str[12];
             sprintf(cartID_str, "ID: %c%c%c%c", headerdata[0x3B], headerdata[0x3C], headerdata[0x3D], headerdata[0x3E]);
@@ -1437,7 +1438,10 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
 
             //rom size
             sprintf(rom_name, "Size: %iMB", fsizeMB);
-            printText(rom_name, 3, -1, disp);        
+            printText(rom_name, 3, -1, disp);
+
+            free(rom_name);
+        
 
             //unique cart id for gametype
             unsigned char cartID_str[12];
@@ -2742,7 +2746,7 @@ void drawToplistBox(display_context_t disp, int line)
                         f_close(&file);
                 
                         toplist[i][0] = (char)cfg_file_data[5];     //quality
-                        strcpy(toplist[i][1], (char)cfg_file_data + 32); //fullpath //TODO: is this correct?!
+                        strcpy(toplist[i] + 1, cfg_file_data + 32); //fullpath
                         i++;
                     }
                 }
