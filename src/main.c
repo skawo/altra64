@@ -2742,7 +2742,7 @@ void drawToplistBox(display_context_t disp, int line)
                         f_close(&file);
                 
                         toplist[i][0] = (char)cfg_file_data[5];     //quality
-                        strcpy(toplist[i] + 1, (char)cfg_file_data + 32); //fullpath
+                        strcpy(toplist[i] + 1, cfg_file_data + 32, sizeof(cfg_file_data) - 1)); //fullpath
                         i++;
                     }
                 }
