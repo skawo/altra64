@@ -962,27 +962,27 @@ void romInfoScreen(display_context_t disp, u8 *buff, int silent)
         if (silent != 1)
         {
             //char 32-51 name
-            char *rom_name;
+            unsigned char *rom_name = substr(headerdata, 32, 19);
             
 
-            for (int u = 0; u < 19; u++)
-            {
-                if (u != 0)
-                {
-                    char *buf = rom_name;
-                    int strLength = snprintf(0, 0, "%s%c", rom_name, headerdata[32 + u]);
-                    //assert(strLength >= 0); // TODO add proper error handling
-                    rom_name = malloc(sizeof(char) * (strLength + 1));
-                    snprintf(rom_name, strLength+1, "%s%c", buf, headerdata[32 + u]);
-                }
-                else
-                {
-                    int strLength = snprintf(0, 0, "%c", headerdata[32 + u]);
-                    //assert(strLength >= 0); // TODO add proper error handling
-                    rom_name = malloc(sizeof(char) * (strLength + 1));
-                    snprintf(rom_name, strLength+1, "%c", headerdata[32 + u]);
-                }
-            }
+            // for (int u = 0; u < 19; u++)
+            // {
+            //     if (u != 0)
+            //     {
+            //         unsigned char *buf = rom_name;
+            //         int strLength = snprintf(0, 0, "%s%c", buf, headerdata[32 + u]);
+            //         //assert(strLength >= 0); // TODO add proper error handling
+            //         rom_name = malloc(sizeof(char) * (strLength + 1));
+            //         snprintf(rom_name, strLength+1, "%s%c", buf, headerdata[32 + u]);
+            //     }
+            //     else
+            //     {
+            //         int strLength = snprintf(0, 0, "%c", headerdata[32 + u]);
+            //         //assert(strLength >= 0); // TODO add proper error handling
+            //         rom_name = malloc(sizeof(char) * (strLength + 1));
+            //         snprintf(rom_name, strLength+1, "%c", headerdata[32 + u]);
+            //     }
+            // }
 
             //rom name
             sprintf(rom_name, "%s", trim(rom_name));
@@ -1409,27 +1409,27 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
         if (fast != 1)
         {
             //char 32-51 name
-            char *rom_name;
+            unsigned char *rom_name = substr(headerdata, 32, 19);
 
-            for (int u = 0; u < 19; u++)
-            {
-                if (u != 0)
-                {
-                    char *buf = rom_name;
+            // for (int u = 0; u < 19; u++)
+            // {
+            //     if (u != 0)
+            //     {
+            //         unsigned char *buf = rom_name;
 
-                    int strLength = snprintf(0, 0, "%s%c", rom_name, headerdata[32 + u]);
-                    //assert(strLength >= 0); // TODO add proper error handling
-                    rom_name = malloc(sizeof(char) * (strLength + 1));
-                    snprintf(rom_name, strLength+1, "%s%c", buf, headerdata[32 + u]);
-                }
-                else
-                {
-                    int strLength = snprintf(0, 0, "%c", headerdata[32 + u]);
-                    //assert(strLength >= 0); // TODO add proper error handling
-                    rom_name = malloc(sizeof(char) * (strLength + 1));
-                    snprintf(rom_name, strLength+1, "%c", headerdata[32 + u]);
-                }
-            }
+            //         int strLength = snprintf(0, 0, "%s%c", buf, headerdata[32 + u]);
+            //         //assert(strLength >= 0); // TODO add proper error handling
+            //         rom_name = malloc(sizeof(char) * (strLength + 1));
+            //         snprintf(rom_name, strLength+1, "%s%c", buf, headerdata[32 + u]);
+            //     }
+            //     else
+            //     {
+            //         int strLength = snprintf(0, 0, "%c", headerdata[32 + u]);
+            //         //assert(strLength >= 0); // TODO add proper error handling
+            //         rom_name = malloc(sizeof(char) * (strLength + 1));
+            //         snprintf(rom_name, strLength+1, "%c", headerdata[32 + u]);
+            //     }
+            // }
 
             //rom name
             sprintf(rom_name, "%s", trim(rom_name));
