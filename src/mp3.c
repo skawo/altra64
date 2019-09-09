@@ -250,6 +250,7 @@ static int fillFileBuffer()
 	return 0;
 }
 
+#pragma GCC diagnostic ignored "-Wuninitialized" //TODO: correct the lib?!
 static void decode()
 {
 	while (mad_frame_decode(&Frame, &Stream) == -1)
@@ -269,9 +270,7 @@ static void decode()
             int tagsize = id3_tag_size(Stream.this_frame, Stream.bufend - Stream.this_frame);
             if (tagsize > 0)
             {
-#pragma GCC diagnostic ignored "-Wuninitialized" //TODO: correct the lib?!
 				mad_stream_skip (&Stream, tagsize);
-#pragma GCC diagnostic pop
                 continue;
 			}
 		}
@@ -280,6 +279,7 @@ static void decode()
     mad_timer_add(&Timer, Frame.header.duration);
 	mad_synth_frame(&Synth, &Frame);
 }
+#pragma GCC diagnostic pop
 
 static void convertLeftSamples(Sample* first, Sample* last, const mad_fixed_t* src)
 {
