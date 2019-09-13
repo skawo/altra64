@@ -11,7 +11,7 @@ LIBDIR = $(ROOTDIR)/lib
 RESDIR = $(ROOTDIR)/res
 
 CHKSUM64 = $(ROOTDIR)/toolchain/libdragon/tools/chksum64.exe
-MKDFS = $(ROOTDIR)/toolchain/libdragon/tools/mkfs.exe
+MKDFS = $(ROOTDIR)/toolchain/libdragon/tools/mkdfs.exe
 N64TOOL = $(ROOTDIR)/toolchain/libdragon/tools/n64tool.exe
 
 HEADERNAME = header.ed64
