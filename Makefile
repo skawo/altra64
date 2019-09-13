@@ -49,7 +49,7 @@ send: $(PROG_NAME).v64
 	$(TOOLSDIR)/up.bat
 
 
-$(PROG_NAME).v64: $(PROG_NAME).elf
+$(PROG_NAME).v64: $(PROG_NAME).elf $(PROG_NAME).dfs
 	$(OBJCOPY) $(BINDIR)/$(PROG_NAME).elf $(BINDIR)/$(PROG_NAME).bin -O binary
 	$(N64TOOL) -l 4M -t $(HEADERTITLE) -h $(RESDIR)/$(HEADERNAME) -o $(BINDIR)/$(PROG_NAME).v64 $(BINDIR)/$(PROG_NAME).bin -s 1M $(BINDIR)/$(PROG_NAME).dfs
 	$(CHKSUM64) $(BINDIR)/$(PROG_NAME).v64
