@@ -8,6 +8,7 @@ SRCDIR = $(ROOTDIR)/src
 OBJDIR = $(ROOTDIR)/obj
 BINDIR = $(ROOTDIR)/bin
 LIBDIR = $(ROOTDIR)/lib
+RESDIR = $(ROOTDIR)/res
 
 CHKSUM64 = $(ROOTDIR)/toolchain/libdragon/tools/chksum64.exe
 MKDFS = $(ROOTDIR)/toolchain/libdragon/tools/mkfs.exe
@@ -15,7 +16,6 @@ N64TOOL = $(ROOTDIR)/toolchain/libdragon/tools/n64tool.exe
 
 HEADERNAME = header.ed64
 HEADERTITLE = "EverDrive OS"
-HEADER = $(ROOTDIR)/toolchain/libdragon/lib/header
 PROG_NAME = OS64
 
 INCLUDE_DIRS = -I$(ROOTDIR)/inc -I$(ROOTDIR)/include -I$(ROOTDIR)/toolchain/gcc-toolchain-mips64/include -I$(ROOTDIR)/toolchain/gcc-toolchain-mips64/mips64-elf/include -I$(ROOTDIR)/toolchain/libdragon/include
