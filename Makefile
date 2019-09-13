@@ -24,7 +24,7 @@ COMMON_FLAGS = -std=gnu17 -march=vr4300 -mtune=vr4300 -Wall -Wrestrict -Wno-poin
 FLAGS_VT = -O2 $(COMMON_FLAGS)
 FLAGS = -O2 $(COMMON_FLAGS)
 ASFLAGS = -mtune=vr4300 -march=vr4300
-LINK_FLAGS = -G0 -L$(ROOTDIR)/lib -L$(ROOTDIR)/toolchain/gcc-toolchain-mips64/mips64-elf/lib -L$(ROOTDIR)/toolchain/libdragon/lib -ldragon -lmikmod -lmad -lyaml -lm -lc -lg -lnosys -ldragonsys -Tn64ld.x
+LINK_FLAGS = -G0 -L$(ROOTDIR)/lib -L$(ROOTDIR)/toolchain/gcc-toolchain-mips64/mips64-elf/lib -L$(ROOTDIR)/toolchain/libdragon/lib -ldragon -lmikmod -lmad -lyaml -lm -lc -ldragonsys -Tn64ld.x
 
 GCCN64PREFIX = $(ROOTDIR)/toolchain/gcc-toolchain-mips64/bin/mips64-elf-
 CC = $(GCCN64PREFIX)gcc.exe
