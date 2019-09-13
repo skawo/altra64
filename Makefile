@@ -58,7 +58,7 @@ $(PROG_NAME).elf : $(OBJ) $(OBJS)
 	$(LD) -o $(BINDIR)/$(PROG_NAME).elf $(OBJ) $(OBJS) $(LINK_FLAGS)
 
 $(PROG_NAME).dfs:
-	$(MKDFSPATH) $(BINDIR)/$(PROG_NAME).dfs $(RESDIR)/filesystem/
+	$(MKDFS) $(BINDIR)/$(PROG_NAME).dfs $(RESDIR)/filesystem/
 
 $(OBJDIR)/gscore.o: $(SRCDIR)/gscore.c
 	$(CC) $(FLAGS_VT) -c $(SRCDIR)/gscore.c -o $(OBJDIR)/gscore.o
