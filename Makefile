@@ -1,7 +1,15 @@
 #
-# Copyright (c) 2017 The Altra64 project contributors
+# Copyright (c) 2020 The Altra64 project contributors
 # See LICENSE file in the project root for full license information.
 #
+
+ifdef SystemRoot
+FIXPATH = $(subst /,\,$1)
+RM = DEL /Q
+else
+FIXPATH = $1
+RM = rm -f
+endif
 
 ROOTDIR = $(CURDIR)
 SRCDIR = $(ROOTDIR)/src
@@ -21,7 +29,7 @@ PROG_NAME = OS64
 INCLUDE_DIRS = -I$(ROOTDIR)/inc -I$(ROOTDIR)/include -I$(ROOTDIR)/toolchain/gcc-toolchain-mips64/include -I$(ROOTDIR)/toolchain/gcc-toolchain-mips64/mips64-elf/include -I$(ROOTDIR)/toolchain/libdragon/include
 
 COMMON_FLAGS = -std=gnu17 -march=vr4300 -mtune=vr4300 -Wall -Wrestrict -Wno-pointer-sign -D_REENTRANT -DUSE_TRUETYPE $(INCLUDE_DIRS) $(SET_DEBUG)
-FLAGS_VT = -O2 $(COMMON_FLAGS)
+FLAGS_VT = -O0 $(COMMON_FLAGS)
 FLAGS = -O2 $(COMMON_FLAGS)
 ASFLAGS = -mtune=vr4300 -march=vr4300
 LINK_FLAGS = -G0 -L$(ROOTDIR)/lib -L$(ROOTDIR)/toolchain/gcc-toolchain-mips64/mips64-elf/lib -L$(ROOTDIR)/toolchain/libdragon/lib -ldragon -lmikmod -lmad -lyaml -lm -lc -ldragonsys -Tn64ld.x
@@ -32,11 +40,37 @@ AS = $(GCCN64PREFIX)as.exe
 LD = $(GCCN64PREFIX)ld.exe
 OBJCOPY = $(GCCN64PREFIX)objcopy
 
-SRC = $(wildcard $(SRCDIR)/*.c)
-SRCS = $(wildcard $(SRCDIR)/*.s)
+SRC = \
+	$(SRCDIR)/chksum64.c \
+	$(SRCDIR)/cic.c \
+	$(SRCDIR)/debug.c \
+	$(SRCDIR)/diskio.c \
+	$(SRCDIR)/everdrive.c \
+	$(SRCDIR)/ff.c \
+	$(SRCDIR)/ffsystem.c \
+	$(SRCDIR)/ffunicode.c \
+	$(SRCDIR)/hashtable.c \
+	$(SRCDIR)/image.c \
+	$(SRCDIR)/ini.c \
+	$(SRCDIR)/main.c \
+	$(SRCDIR)/mem.c \
+	$(SRCDIR)/memorypak.c \
+	$(SRCDIR)/menu_about.c \
+	$(SRCDIR)/menu.c \
+	$(SRCDIR)/mp3.c \
+	$(SRCDIR)/rom.c \
+	$(SRCDIR)/sd.c \
+	$(SRCDIR)/sound.c \
+	$(SRCDIR)/sram.c \
+	$(SRCDIR)/strlib.c \
+	$(SRCDIR)/sys.c \
+	$(SRCDIR)/usb.c \
+	$(SRCDIR)/utils.c \
+	$(SRCDIR)/version.c #$(wildcard $(SRCDIR)/*.c)
+#SRCS = 	$(SRCDIR)/data.s #$(wildcard $(SRCDIR)/*.s)
 
-OBJ = $(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
-OBJS = $(SRCS:$(SRCDIR)/%.s=$(OBJDIR)/%.o)
+OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
+#OBJS = $(patsubst $(SRCDIR)/%.s, $(OBJDIR)/%.o, $(SRCS))
 
 all: $(PROG_NAME).v64
 
@@ -63,13 +97,16 @@ $(PROG_NAME).dfs:
 $(OBJDIR)/gscore.o: $(SRCDIR)/gscore.c
 	$(CC) $(FLAGS_VT) -c $(SRCDIR)/gscore.c -o $(OBJDIR)/gscore.o
 
-$(OBJDIR)/%.o : $(SRCDIR)/%.c
+$(OBJDIR)%.o : $(SRCDIR)%.c
 	$(CC) $(FLAGS) -c $< -o $@
 
-$(OBJDIR)/%.o : $(SRCDIR)/%.s
+$(OBJDIR)%.o : $(SRCDIR)%.s
 	$(AS) $(ASFLAGS) $< -o $@
 	
 
 clean:
-	DEL /Q /S $(OBJDIR)/*.o
-	DEL /Q $(BINDIR)/*.v64 & DEL /Q $(BINDIR)/*.bin & DEL /Q $(BINDIR)/*.elf
+	@echo "Cleaning $(PROG_NAME)..."
+	@$(RM) $(call FIXPATH,$(BINDIR)/$(PROG_NAME).v64)
+	@$(RM) $(call FIXPATH,$(BINDIR)/$(PROG_NAME).bin)
+	@$(RM) $(call FIXPATH,$(BINDIR)/$(PROG_NAME).elf)
+	@$(RM) $(call FIXPATH,$(OBJ)) $(call FIXPATH,$(OBJS))
