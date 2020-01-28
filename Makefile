@@ -40,37 +40,9 @@ AS = $(GCCN64PREFIX)as.exe
 LD = $(GCCN64PREFIX)ld.exe
 OBJCOPY = $(GCCN64PREFIX)objcopy
 
-SRC = \
-	$(SRCDIR)/chksum64.c \
-	$(SRCDIR)/cic.c \
-	$(SRCDIR)/debug.c \
-	$(SRCDIR)/diskio.c \
-	$(SRCDIR)/everdrive.c \
-	$(SRCDIR)/ff.c \
-	$(SRCDIR)/ffsystem.c \
-	$(SRCDIR)/ffunicode.c \
-	$(SRCDIR)/hashtable.c \
-	$(SRCDIR)/image.c \
-	$(SRCDIR)/ini.c \
-	$(SRCDIR)/main.c \
-	$(SRCDIR)/mem.c \
-	$(SRCDIR)/memorypak.c \
-	$(SRCDIR)/menu_about.c \
-	$(SRCDIR)/menu.c \
-	$(SRCDIR)/mp3.c \
-	$(SRCDIR)/rom.c \
-	$(SRCDIR)/sd.c \
-	$(SRCDIR)/sound.c \
-	$(SRCDIR)/sram.c \
-	$(SRCDIR)/strlib.c \
-	$(SRCDIR)/sys.c \
-	$(SRCDIR)/usb.c \
-	$(SRCDIR)/utils.c \
-	$(SRCDIR)/version.c #$(wildcard $(SRCDIR)/*.c)
-#SRCS = 	$(SRCDIR)/data.s #$(wildcard $(SRCDIR)/*.s)
+SRC = $(wildcard $(SRCDIR)/*.c)
 
 OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
-#OBJS = $(patsubst $(SRCDIR)/%.s, $(OBJDIR)/%.o, $(SRCS))
 
 all: $(PROG_NAME).v64
 
@@ -105,8 +77,8 @@ $(OBJDIR)/%.o : $(SRCDIR)/%.s
 	
 
 clean:
-	@echo "Cleaning $(PROG_NAME)..."
+	$(info "Cleaning $(PROG_NAME)...")
 	@$(RM) $(call FIXPATH,$(BINDIR)/$(PROG_NAME).v64)
 	@$(RM) $(call FIXPATH,$(BINDIR)/$(PROG_NAME).bin)
 	@$(RM) $(call FIXPATH,$(BINDIR)/$(PROG_NAME).elf)
-	@$(RM) $(call FIXPATH,$(OBJ)) $(call FIXPATH,$(OBJS))
+	@$(RM) $(call FIXPATH,$(OBJ))
