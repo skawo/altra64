@@ -97,10 +97,10 @@ $(PROG_NAME).dfs:
 $(OBJDIR)/gscore.o: $(SRCDIR)/gscore.c
 	$(CC) $(FLAGS_VT) -c $(SRCDIR)/gscore.c -o $(OBJDIR)/gscore.o
 
-$(OBJDIR)%.o : $(SRCDIR)%.c
+$(OBJDIR)/%.o : $(SRCDIR)/%.c
 	$(CC) $(FLAGS) -c $< -o $@
 
-$(OBJDIR)%.o : $(SRCDIR)%.s
+$(OBJDIR)/%.o : $(SRCDIR)/%.s
 	$(AS) $(ASFLAGS) $< -o $@
 	
 
