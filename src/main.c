@@ -1733,7 +1733,6 @@ int saveTypeFromSd(display_context_t disp, char *rom_name, int stype)
 
 	if (pushSaveToCart(stype, cartsave_data)) printText("transferred save data...", 3, -1, disp);
 	else printText("error transfering save data", 3, -1, disp);
-    }
 
     return 1;
 }
