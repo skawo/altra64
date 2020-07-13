@@ -22,3 +22,5 @@
 /lib/*
 /include/*
 /temp
+*.zip
+toolchain/
