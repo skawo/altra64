@@ -4587,9 +4587,31 @@ int main(void)
             bi_speed25();
         }
 
-        if (tv_mode != 0)
+        /*
+         * TV Mode from Config and libDragon differ:
+         * 
+         * Config | libDragon | Mode
+         * -------|-----------|-------
+         * 0      | None      | Auto
+         * 1      | 1         | NTSC
+         * 2      | 0         | PAL
+         * 3      | 2         | M-PAL
+         */
+        switch (tv_mode)
         {
-            *(u32 *)0x80000300 = tv_mode;
+            case 1:
+                *(u32 *)0x80000300 = 1U; // NTSC
+                break;
+            case 2:
+                *(u32 *)0x80000300 = 0U; // PAL
+                break;
+            case 3:
+                *(u32 *)0x80000300 = 2U; // M-PAL
+                break;
+            default:
+                // Do nothing. Required to make sure no mode other than 0..2 is used.
+                // Only there for defensive programming.
+                break;
         }
 
         init_interrupts();
