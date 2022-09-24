@@ -1103,7 +1103,7 @@ sprite_t *loadPng(u8 *png_filename)
 
 void loadgbrom(display_context_t disp, TCHAR *rom_path)
 {
-    drawShortInfoBox(disp, " loading please wait", 0);
+    drawShortInfoBox(disp, "Loading, please wait.", 0);
     FRESULT result;
     FIL emufile;
     UINT emubytesread;
@@ -1170,14 +1170,14 @@ void loadggrom(display_context_t disp, TCHAR *rom_path) //TODO: this could be me
         {
             //error
 
-            drawShortInfoBox(disp, "  error: rom > 512KB", 1);
+            drawShortInfoBox(disp, "ERROR: ROM > 512KB", 1);
             input_mapping = abort_screen;
 
             return;
         }
         else
         {
-            drawShortInfoBox(disp, " loading please wait", 0);
+            drawShortInfoBox(disp, "Loading, please wait.", 0);
 
             FRESULT result;
             FIL file;
@@ -1240,14 +1240,14 @@ void loadmsx2rom(display_context_t disp, TCHAR *rom_path)
         {
             //error
 
-            drawShortInfoBox(disp, "  error: rom > 512KB", 1);
+            drawShortInfoBox(disp, " ERROR: ROM > 128KB", 1);
             input_mapping = abort_screen;
 
             return;
         }
         else
         {
-            drawShortInfoBox(disp, " loading please wait", 0);
+            drawShortInfoBox(disp, "Loading, please wait", 0);
 
             FRESULT result;
             FIL file;
@@ -1351,7 +1351,21 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
     clearScreen(disp);
     display_show(disp);
 
-    printText("Loading ROM, Please wait:", 3, 4, disp);
+    printText("Loading ROM...", 3, 4, disp);
+	
+	// Add the backup save flag file.
+	TCHAR backup_flag_path[32];
+	sprintf(backup_flag_path, "/"ED64_FIRMWARE_PATH"/%s/BACKUPSAVE.CFG", save_path);
+
+	FILINFO fnoba;
+	FRESULT fresult = f_stat(backup_flag_path, &fnoba);
+	if (fresult != FR_OK) 
+	{
+        FIL file;
+        f_open(&file, backup_flag_path, FA_WRITE | FA_CREATE_ALWAYS);
+		f_close(&file);
+	}
+		
 
     TCHAR filename[64];
     sprintf(filename, "%s", buff);
@@ -1507,14 +1521,14 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
 
         if(result == FR_OK)
         {
-            printText("Rom loaded", 3, -1, disp);
+            printText("Loaded!", 3, -1, disp);
 
             if (!fast)
             {
                 printText(" ", 3, -1, disp);
                 printText("(C-UP to activate cheats)", 3, -1, disp);
                 printText("(C-RIGHT to force menu tv mode)", 3, -1, disp);
-                printText("done: PRESS START", 3, -1, disp);
+                printText("Done: PRESS START", 3, -1, disp);
             }
             else
             {
@@ -1523,7 +1537,7 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
         }
         else
         {
-            printText("file open error", 3, -1, disp);
+            printText("ERROR: Could not open file.", 3, -1, disp);
         }
     }
 }
@@ -1537,7 +1551,6 @@ int backupSaveData(display_context_t disp)
     u8 save_format;
     u8 cfg_data[2]; //TODO: this should be a strut?
 
-
     FRESULT result;
     FIL file;
     UINT bytesread;
@@ -1545,11 +1558,10 @@ int backupSaveData(display_context_t disp)
 
     if (result == FR_OK)
     {
-        printText("updating last played game record...", 3, 4, disp);
+        printText("Updating the last played game...", 3, 4, disp);
 
         int fsize = f_size(&file);
-
-
+		
         result =
         f_read (
             &file,        /* [IN] File object */
@@ -1598,7 +1610,7 @@ int backupSaveData(display_context_t disp)
             else
             {
                 TRACE(disp, "Save not required.");
-                printText("...ready", 3, -1, disp);
+                printText("Ready.", 3, -1, disp);
                 display_show(disp);
                 return 1;
             }
@@ -1607,7 +1619,7 @@ int backupSaveData(display_context_t disp)
     else
     {
         TRACE(disp, "No previous ROM loaded!");
-        printText("...ready", 3, -1, disp);
+        printText("Ready.", 3, -1, disp);
         display_show(disp);
         return 0;
     }
@@ -1618,11 +1630,11 @@ int backupSaveData(display_context_t disp)
         printText("Copying save RAM to SD card...", 3, -1, disp);
         if (saveTypeToSd(disp, rom_filename, save_format))
         {
-            printText("Operation completed sucessfully...", 3, -1, disp);
+            printText("Success!", 3, -1, disp);
         }
         else
         {
-            TRACE(disp, "ERROR: the RAM was not successfully saved!");
+            TRACE(disp, "ERROR: The RAM was not successfully saved!");
         }
     }
     else
@@ -1694,33 +1706,33 @@ int saveTypeFromSd(display_context_t disp, char *rom_name, int stype)
         switch(result)
         {
         case FR_NOT_READY:
-        printText("not ready error", 11, -1, disp);
+        printText("ERROR: Not ready.", 11, -1, disp);
         break;
         case FR_NO_FILE:
-        printText("no file error", 11, -1, disp);
+        printText("ERROR: File doesn't exist.", 11, -1, disp);
         break;
         case FR_NO_PATH:
-        printText("no path error", 11, -1, disp);
+        printText("ERROR: Path doesn't exist.", 11, -1, disp);
         break;
         case FR_INVALID_NAME:
-        printText("invalid name error", 11, -1, disp);
+        printText("ERROR: Invalid name.", 11, -1, disp);
         break;
         case FR_DENIED:
-        printText("denied error", 11, -1, disp);
+        printText("ERROR: Operation denied.", 11, -1, disp);
         break;
         case FR_EXIST:
-        printText("exist error", 11, -1, disp);
+        printText("ERROR: File already exists.", 11, -1, disp);
         break;
         case FR_TIMEOUT:
-        printText("timeout error", 11, -1, disp);
+        printText("ERROR: Timeout.", 11, -1, disp);
         break;
         case FR_LOCKED:
-        printText("locked error", 11, -1, disp);
+        printText("ERROR: Device locked.", 11, -1, disp);
         break;
         default:
         break;
         }
-        printText("no save found", 3, -1, disp);
+        printText("No save found.", 3, -1, disp);
         //todo: clear memory area
 
         return 0;
@@ -1728,11 +1740,11 @@ int saveTypeFromSd(display_context_t disp, char *rom_name, int stype)
 
     if (pushSaveToCart(stype, cartsave_data))
     {
-        printText("transferred save data...", 3, -1, disp);
+        printText("Transferred save data.", 3, -1, disp);
     }
     else
     {
-        printText("error transfering save data", 3, -1, disp);
+        printText("Error transfering save data.", 3, -1, disp);
     }
 
     return 1;
@@ -1740,6 +1752,15 @@ int saveTypeFromSd(display_context_t disp, char *rom_name, int stype)
 
 int saveTypeToSd(display_context_t disp, char *rom_name, int stype)
 {
+	// Delete the backup save flag.
+	TCHAR backup_flag_path[32];
+	sprintf(backup_flag_path, "/"ED64_FIRMWARE_PATH"/%s/BACKUPSAVE.CFG", save_path);
+	
+	FILINFO fflag;
+	FRESULT fresult = f_stat(backup_flag_path, &fflag);
+	if (fresult == FR_OK) 
+		f_unlink(backup_flag_path);
+
     //after reset create new savefile
     const char* save_type_extension = saveTypeToExtension(stype, ext_type);
     TCHAR fname[256]; //TODO: change filename buffers to 256!!!
@@ -1748,6 +1769,7 @@ int saveTypeToSd(display_context_t disp, char *rom_name, int stype)
     FILINFO fnoba;
     printText("Finding unused save slot...", 3, -1, disp);
     display_show(disp);
+	
     while (true) {
         sprintf(fname, "/"ED64_FIRMWARE_PATH"/%s/%s.%04x.%s", save_path, rom_name, save_count, save_type_extension);
         result = f_stat (fname, &fnoba);
@@ -1757,6 +1779,7 @@ int saveTypeToSd(display_context_t disp, char *rom_name, int stype)
         }
         ++save_count;
     }
+	
     sprintf(fname, "Found unused save slot: %04x", save_count);
     printText(fname, 3, -1, disp);
     display_show(disp);
@@ -1774,11 +1797,9 @@ int saveTypeToSd(display_context_t disp, char *rom_name, int stype)
         //for savegame
         uint8_t cartsave_data[size]; //TODO: bring back old initialisation if this doesn't work
 
-
-
         TRACEF(disp, "cartsave_data=%p", &cartsave_data);
-
-        printText("Transfering save data...", 3, -1, disp);
+        printText("Transferring save data...", 3, -1, disp);
+		
         if (getSaveFromCart(stype, cartsave_data))
         {
             UINT bw;
@@ -1790,13 +1811,23 @@ int saveTypeToSd(display_context_t disp, char *rom_name, int stype)
             );
             f_close(&file);
 
-            printText("RAM area copied to SD card.", 3, -1, disp);
+			if (bw == 0)
+			{
+				printText("File was blank.", 3, -1, disp);
+				f_unlink(fname);
+			}
+			else
+			{
+				printText("RAM area copied to SD card.", 3, -1, disp);
+			}
+			
             return 1;
         }
         else
         {
             f_close(&file);
-            printText("Error saving game to SD", 3, -1, disp);
+			f_unlink(fname);
+            printText("Couldn't retrieve save from SRAM.", 3, -1, disp);
             return 0;
         }
     }
@@ -2352,7 +2383,7 @@ void playSound(int snd)
     //no thread support in libdragon yet, sounds pause the menu for a time :/
 
     if (snd == 1)
-        sndPlaySFX("rom://sounds/ed64_mono.wav");
+        sndPlaySFX("rom://sounds/boot.wav");
 
     if (snd == 2)
         sndPlaySFX("rom://sounds/bamboo.wav");
@@ -4560,14 +4591,7 @@ int main(void)
     {
         // everdrive initial function
         configure();
-
-        //fast boot for backup-save data
-        int sj = evd_readReg(REG_CFG); // not sure if this is needed!
-        int save_job = evd_readReg(REG_SAV_CFG); //TODO: or the firmware is V3
-
-        if (save_job != 0)
-            fast_boot = 1;
-
+		
         //not gamepads more or less the n64 hardware-controllers
         controller_init();
 
@@ -4579,18 +4603,12 @@ int main(void)
 
         //sd card speed settings from config
         if (sd_speed == 2)
-        {
             bi_speed50();
-        }
         else
-        {
             bi_speed25();
-        }
-
+		
         if (tv_mode != 0)
-        {
             *(u32 *)0x80000300 = tv_mode;
-        }
 
         init_interrupts();
 
@@ -4612,9 +4630,17 @@ int main(void)
         //Grab a render buffer
         while (!(disp = display_lock()))
             ;
+		
+		// Check if savefile is supposed to be there.
+		TCHAR backup_flag_path[32];
+		sprintf(backup_flag_path, "/"ED64_FIRMWARE_PATH"/%s/BACKUPSAVE.CFG", save_path);
+
+		FILINFO fnoba;
+		FRESULT fresult = f_stat(backup_flag_path, &fnoba);
+		if (fresult == FR_OK)
+			fast_boot = 1;
 
         //backgrounds from ramfs/libdragonfs
-
         if (!fast_boot)
         {
             splashscreen = read_sprite("rom://sprites/splash.sprite");
@@ -4624,7 +4650,7 @@ int main(void)
             if (sound_on)
             {
                 playSound(1);
-                for (int s = 0; s < 200; s++) //todo: this blocks for 2 seconds (splashscreen)! is there a better way before the main loop starts!
+                for (int s = 0; s < 400; s++) //todo: this blocks for 4 seconds (splashscreen)! is there a better way before the main loop starts!
                 {
                     sndUpdate();
                     sleep(10);
@@ -4671,10 +4697,12 @@ int main(void)
 
         display_show(disp); //new
 
-        backupSaveData(disp);
-
-        while (!(disp = display_lock()))
-            ;
+		if (fast_boot)
+		{
+			backupSaveData(disp);
+			while (!(disp = display_lock()))
+				;
+		}
 
         sprintf(pwd, "%s", "/");
         readSDcard(disp, "/");
