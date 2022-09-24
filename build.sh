@@ -1,0 +1,1 @@
+sudo docker run --rm -v "$(pwd):/build" moparisthebest/altra64-dev make

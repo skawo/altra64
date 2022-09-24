@@ -4606,7 +4606,6 @@ int main(void)
             bi_speed50();
         else
             bi_speed25();
-        }
 
         /*
          * TV Mode from Config and libDragon differ:
