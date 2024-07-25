@@ -48,6 +48,7 @@
 #include "memorypak.h"
 #include "menu.h"
 #include "cic.h"
+#include "usb.h"
 
 #define ED64PLUS
 
@@ -1345,15 +1346,8 @@ void loadnesrom(display_context_t disp, TCHAR *rom_path)
     }
 }
 
-//load a z64/v64/n64 rom to the sdram
-void loadrom(display_context_t disp, u8 *buff, int fast)
+void writeBackupSaveFile()
 {
-    clearScreen(disp);
-    display_show(disp);
-
-    printText("Loading ROM...", 3, 4, disp);
-	
-	// Add the backup save flag file.
 	TCHAR backup_flag_path[32];
 	sprintf(backup_flag_path, "/"ED64_FIRMWARE_PATH"/%s/BACKUPSAVE.CFG", save_path);
 
@@ -1364,9 +1358,18 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
         FIL file;
         f_open(&file, backup_flag_path, FA_WRITE | FA_CREATE_ALWAYS);
 		f_close(&file);
-	}
-		
+	}	
+}
 
+//load a z64/v64/n64 rom to the sdram
+void loadrom(display_context_t disp, u8 *buff, int fast)
+{
+    clearScreen(disp);
+    display_show(disp);
+
+    printText("Loading ROM...", 3, 4, disp);
+	writeBackupSaveFile();
+	
     TCHAR filename[64];
     sprintf(filename, "%s", buff);
 
@@ -1544,6 +1547,16 @@ void loadrom(display_context_t disp, u8 *buff, int fast)
 
 int backupSaveData(display_context_t disp)
 {
+	// Delete the backup save flag.
+	TCHAR backup_flag_path[32];
+	sprintf(backup_flag_path, "/"ED64_FIRMWARE_PATH"/%s/BACKUPSAVE.CFG", save_path);
+	
+	FILINFO fflag;
+	FRESULT fresult = f_stat(backup_flag_path, &fflag);
+	if (fresult == FR_OK) 
+		f_unlink(backup_flag_path);	
+	
+	
     //backup cart-save on sd after reboot
     TCHAR config_file_path[32];
     sprintf(config_file_path, "/"ED64_FIRMWARE_PATH"/%s/LASTROM.CFG", save_path);
@@ -1752,14 +1765,7 @@ int saveTypeFromSd(display_context_t disp, char *rom_name, int stype)
 
 int saveTypeToSd(display_context_t disp, char *rom_name, int stype)
 {
-	// Delete the backup save flag.
-	TCHAR backup_flag_path[32];
-	sprintf(backup_flag_path, "/"ED64_FIRMWARE_PATH"/%s/BACKUPSAVE.CFG", save_path);
-	
-	FILINFO fflag;
-	FRESULT fresult = f_stat(backup_flag_path, &fflag);
-	if (fresult == FR_OK) 
-		f_unlink(backup_flag_path);
+
 
     //after reset create new savefile
     const char* save_type_extension = saveTypeToExtension(stype, ext_type);
@@ -1833,7 +1839,7 @@ int saveTypeToSd(display_context_t disp, char *rom_name, int stype)
     }
     else
     {
-        TRACE(disp, "COULDNT CREATE FILE :-(");
+        TRACE(disp, "COULDN'T CREATE FILE :-(");
         printText("Error saving game to SD, couldn't create file!", 3, -1, disp);
     }
 }
@@ -2281,43 +2287,44 @@ int readCheatFile(TCHAR *filename, u32 *cheat_lists[2])
     }
 }
 
+void loadSave(display_context_t disp, char* filename, int save, int cic)
+{
+	TCHAR cfg_file[32];
+
+	//set cfg file with last loaded cart info and save-type
+	sprintf(cfg_file, "/"ED64_FIRMWARE_PATH"/%s/LASTROM.CFG", save_path);
+
+	FRESULT result;
+	FIL file;
+	result = f_open(&file, cfg_file, FA_WRITE | FA_CREATE_ALWAYS);	
+	
+	if (result == FR_OK)
+    {
+	
+		uint8_t cfg_data[2] = {save, cic};
+
+		UINT bw;
+		result = f_write (
+			&file,          /* [IN] Pointer to the file object structure */
+			&cfg_data, /* [IN] Pointer to the data to be written */
+			2,         /* [IN] Number of bytes to write */
+			&bw          /* [OUT] Pointer to the variable to return number of bytes written */
+		  );
+
+		f_puts(filename, &file);
+		f_close(&file);	
+        evd_setSaveType(save);
+		saveTypeFromSd(disp, filename, save);
+	}
+}
+
 void bootRom(display_context_t disp, int silent)
 {
     if (boot_cic != 0)
     {
         if (boot_save != 0)
         {
-            TCHAR cfg_file[32];
-
-            //set cfg file with last loaded cart info and save-type
-            sprintf(cfg_file, "/"ED64_FIRMWARE_PATH"/%s/LASTROM.CFG", save_path);
-
-            FRESULT result;
-            FIL file;
-            result = f_open(&file, cfg_file, FA_WRITE | FA_CREATE_ALWAYS);
-
-            if (result == FR_OK)
-            {
-                uint8_t cfg_data[2] = {boot_save, boot_cic};
-
-
-                UINT bw;
-                result = f_write (
-                    &file,          /* [IN] Pointer to the file object structure */
-                    &cfg_data, /* [IN] Pointer to the data to be written */
-                    2,         /* [IN] Number of bytes to write */
-                    &bw          /* [OUT] Pointer to the variable to return number of bytes written */
-                  );
-
-                f_puts(rom_filename, &file);
-
-                f_close(&file);
-
-                //set the fpga cart-save type
-                evd_setSaveType(boot_save);
-
-                saveTypeFromSd(disp, rom_filename, boot_save);
-            }
+			loadSave(disp, rom_filename, boot_save, boot_cic);
         }
 
         TRACE(disp, "Cartridge-Savetype set");
@@ -4749,9 +4756,12 @@ int main(void)
         //system main-loop with controller inputs-scan
         for ( ;; )
         {
+			if (usbListener(disp))
+				continue;
+
             if (sound_on)
                 sndUpdate();
-
+			
             handleInput(disp, contr);
 
             if (mp3playing && audio_can_write())

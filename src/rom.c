@@ -56,6 +56,32 @@ void swap_header(unsigned char* header, int loadlength) {
     }
 }
 
+void swap_data(unsigned char* header, unsigned char* data, int loadlength) 
+{
+    unsigned char temp;
+    int i;
+
+    /* Btyeswap if .v64 image. */
+    if( header[0]==0x37) {
+        for (i = 0; i < loadlength; i+=2) {
+            temp= data[i];
+            data[i]= data[i+1];
+            data[i+1]=temp;
+            }
+        }
+    /* Wordswap if .n64 image. */
+    else if( header[0]==0x40) {
+        for (i = 0; i < loadlength; i+=4) {
+            temp= data[i];
+            data[i]= data[i+3];
+            data[i+3]=temp;
+            temp= data[i+1];
+            data[i+1]= data[i+2];
+            data[i+2]=temp;
+        }
+    }
+}
+
 u8 getCicType(u8 bios_cic) {
     u8 cic_buff[2048];
     volatile u8 cic_chip;

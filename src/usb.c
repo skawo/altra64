@@ -7,6 +7,15 @@
 #include "everdrive.h"
 #include "sys.h"
 #include "rom.h"
+#include "cic.h"
+#include "utils.h"
+#include <stdio.h>
+#include <libdragon.h>
+#include "main.h"
+#include "mem.h"
+#include "menu.h"
+#include "sd.h"
+#include "ff.h"
 
 u8 cmdTest();
 u8 cmdFill();
@@ -43,9 +52,43 @@ u8 *usb_buff8; // = (u8 *) usb_buff;
 #define	IO_WRITE(addr,data)	(*(volatile u32*)PHYS_TO_K1(addr)=(u32)(data))
 #define PI_BASE_REG		0x04600000
 
-extern u8 system_cic;
 
-u8 usbListener() {
+#define ED64PLUS
+
+#ifdef ED64PLUS
+#define ED64_FIRMWARE_PATH "ED64P"
+#else
+#define ED64_FIRMWARE_PATH "ED64"
+#endif
+
+extern char *save_path;
+extern short int gCursorY;
+
+void clearAndDrawBox(display_context_t disp, char *text)
+{    while (!(disp = display_lock()))
+                ;
+
+	drawBg(disp);
+    drawBoxNumber(disp, 7);
+    printText(text, 9, 14, disp);
+    display_show(disp);
+
+}
+
+void clearAndDrawStartBox(display_context_t disp, char *text)
+{    while (!(disp = display_lock()))
+                ;
+
+	drawBg(disp);
+    drawBoxNumber(disp, 11);
+    printText("Starting:", 9, 14, disp);
+	printText(text, 9, 15, disp);
+    display_show(disp);
+
+}
+
+
+u8 usbListener(display_context_t disp) {
 
     volatile u16 resp;
     volatile u8 cmd;
@@ -59,6 +102,7 @@ u8 usbListener() {
     if (resp != 0) return 1;
 
     if (usb_buff8[0] != 'C' || usb_buff8[1] != 'M' || usb_buff8[2] != 'D')return 2;
+	
 
     cmd = usb_buff8[3];
 
@@ -70,6 +114,7 @@ u8 usbListener() {
             if (resp)return 10;
             break;
         case 'W':
+			clearAndDrawBox(disp, "  Loading from USB...");
             resp = cmdWriteRom();
             if (resp)return 11;
             break;
@@ -82,14 +127,55 @@ u8 usbListener() {
             if (resp)return 13;
             break;
         case 'S':
-            //IO_WRITE(PI_BSD_DOM1_PGS_REG, 0x0c);
-            //IO_WRITE(PI_BSD_DOM1_PGS_REG, 0x80);
-            //evdSetESaveType(SAVE_TYPE_EEP16k);
-            //system_cic = CIC_6102; //TODO: re-enable
+            IO_WRITE(PI_BSD_DOM1_PGS_REG, 0x0c);
+            IO_WRITE(PI_BSD_DOM1_PGS_REG, 0x80);
             evd_lockRegs();
             IO_WRITE(PI_STATUS_REG, 3);
             sleep(2);
-            pif_boot();
+
+			unsigned char header[512]; 
+			
+			memSpiSetDma(1);
+			memSpiRead(&header, 1);
+			memSpiSetDma(0);
+			
+			int sw_type = is_valid_rom(header);
+
+			if (sw_type != 0)
+			{
+				clearAndDrawBox(disp, "Byteswapped ROM. Abort.");
+				for (;;)
+				{
+					;
+				}
+			}
+			
+			// Trim whitespace at the end of game title
+			for (int i = 0x33; i > 0x20; i--)
+			{
+				if (header[i] == 0x20)
+					header[i] = '\0';
+				else
+					break;
+			}
+			
+			unsigned char gameTitle[80];				
+			sprintf(gameTitle, "%s (%c%c%c%c)\0", &header[0x20], header[0x3B], header[0x3C], header[0x3D], header[0x3E]);
+
+			clearAndDrawStartBox(disp, gameTitle);
+			
+			gCursorY = 18;
+			
+			unsigned char cartID_short[4];
+			sprintf(cartID_short, "%c%c\0", header[0x3C], header[0x3D]);
+			
+			int cic, save;
+			get_cic_save(cartID_short, &cic, &save);
+			
+			loadSave(disp, gameTitle, save, cic);
+			writeBackupSaveFile();
+			
+			simulate_boot(cic, cic, 0);
             break;
         case 'D':
             //TODO: initiate debug session                    

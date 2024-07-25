@@ -443,6 +443,7 @@ void simulate_boot(u32 cic_chip, u8 gBootCic, u32 *cheat_lists[2]) {
          */
         TV_TYPE = MIN((~force_tv - 1) & 3, 2);
     }
+	gCheats = false;
 
     if (gCheats) {
         // Copy patcher into a memory location where it will not be overwritten
